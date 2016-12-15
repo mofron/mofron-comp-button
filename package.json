@@ -1,0 +1,25 @@
+{
+  "name": "mofron-parts-button",
+  "version": "0.0.1",
+  "description": "button of mofron base parts",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mofron" : "^0.0.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/simpart/mofron-parts-button.git"
+  },
+  "keywords": [
+    "mofron"
+  ],
+  "author": "simpart",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/simpart/mofron-parts-button/issues"
+  },
+  "homepage": "https://github.com/simpart/mofron-parts-button#readme"
+}
