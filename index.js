@@ -6,7 +6,7 @@
 /**
  * @class Button
  */
-module.exports = class extends mofron.parts.Base {
+mofron.parts.Button = class extends mofron.parts.Base {
     constructor (cnt) {
         try {
             super(cnt);

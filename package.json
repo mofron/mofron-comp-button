@@ -1,6 +1,6 @@
 {
   "name": "mofron-parts-button",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "button of mofron base parts",
   "main": "index.js",
   "scripts": {
