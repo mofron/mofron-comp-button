@@ -1,13 +1,15 @@
 {
   "name": "mofron-parts-button",
-  "version": "0.0.2",
+  "version": "0.0.5",
   "description": "button of mofron base parts",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mofron" : "^0.0.1"
+    "mofron" : "^0.0.1",
+    "mofron-parts-text" : "^0.0.2",
+    "mofron-event-click" : "^0.0.1"
   },
   "repository": {
     "type": "git",

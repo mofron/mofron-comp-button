@@ -2,26 +2,12 @@
  * @file   Button.js
  * @author simpart
  */
+require('mofron-parts-text');
 
 /**
  * @class Button
  */
 mofron.parts.Button = class extends mofron.parts.Base {
-    constructor (cnt) {
-        try {
-            super(cnt);
-            if ('string' === (typeof cnt)) {
-                this.addChild(new mofron.parts.Text(cnt));
-            } else if ('object' === (typeof cnt)) {
-                this.addChild(cnt);
-            } else {
-                throw new Error('invalid parameter');
-            }
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
     
     getTarget () {
         try {
@@ -34,7 +20,18 @@ mofron.parts.Button = class extends mofron.parts.Base {
     
     initContents (vd, prm) {
         try {
-            vd.addChild(new mofron.util.Vdom('button'));
+            var btn = new mofron.util.Vdom('button');
+            
+            if ('string' === (typeof prm)) {
+                btn.addChild(new mofron.parts.Text(prm).getVdom());
+            } else if ('object' === (typeof cnt)) {
+                btn.addChild(prm.getVdom());
+            } else {
+                throw new Error('invalid parameter');
+            }
+            
+            vd.addChild(btn);
+            
             this.style('cursor', 'pointer');
             this.width(50);
             this.height(25);

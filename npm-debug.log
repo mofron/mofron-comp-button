@@ -1,0 +1,111 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'publish' ]
+2 info using npm@3.10.8
+3 info using node@v6.9.1
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   escapedName: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/home/taria/mofron/parts/base/mofron-parts-button',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /root/.npm/mofron-parts-button/0.0.4/package.tgz not in flight; packing
+9 verbose correctMkdir /root/.npm correctMkdir not in flight; initializing
+10 info lifecycle mofron-parts-button@0.0.4~prepublish: mofron-parts-button@0.0.4
+11 silly lifecycle mofron-parts-button@0.0.4~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/root/.npm/mofron-parts-button/0.0.4/package.tgz',
+12 verbose tar pack   '/home/taria/mofron/parts/base/mofron-parts-button' ]
+13 verbose tarball /root/.npm/mofron-parts-button/0.0.4/package.tgz
+14 verbose folder /home/taria/mofron/parts/base/mofron-parts-button
+15 verbose addLocalTarball adding from inside cache /root/.npm/mofron-parts-button/0.0.4/package.tgz
+16 verbose correctMkdir /root/.npm correctMkdir not in flight; initializing
+17 silly cache afterAdd mofron-parts-button@0.0.4
+18 verbose afterAdd /root/.npm/mofron-parts-button/0.0.4/package/package.json not in flight; writing
+19 verbose correctMkdir /root/.npm correctMkdir not in flight; initializing
+20 verbose afterAdd /root/.npm/mofron-parts-button/0.0.4/package/package.json written
+21 silly publish { name: 'mofron-parts-button',
+21 silly publish   version: '0.0.4',
+21 silly publish   description: 'button of mofron base parts',
+21 silly publish   main: 'index.js',
+21 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+21 silly publish   dependencies:
+21 silly publish    { mofron: '^0.0.1',
+21 silly publish      'mofron-parts-text': '^0.0.2',
+21 silly publish      'mofron-event-click': '^0.0.1' },
+21 silly publish   repository:
+21 silly publish    { type: 'git',
+21 silly publish      url: 'git+https://github.com/simpart/mofron-parts-button.git' },
+21 silly publish   keywords: [ 'mofron' ],
+21 silly publish   author: { name: 'simpart' },
+21 silly publish   license: 'SEE LICENSE IN LICENSE',
+21 silly publish   bugs: { url: 'https://github.com/simpart/mofron-parts-button/issues' },
+21 silly publish   homepage: 'https://github.com/simpart/mofron-parts-button#readme',
+21 silly publish   readme: '# mofron-parts-button\n',
+21 silly publish   readmeFilename: 'README.md',
+21 silly publish   gitHead: 'a6faa5d4933abc4cd27d4c58fca2a595a3b02f92',
+21 silly publish   _id: 'mofron-parts-button@0.0.4',
+21 silly publish   _shasum: '6069d23dd9a744bdd5557a87e288d33dbde57dc2',
+21 silly publish   _from: '.' }
+22 verbose getPublishConfig undefined
+23 silly mapToRegistry name mofron-parts-button
+24 silly mapToRegistry using default registry
+25 silly mapToRegistry registry https://registry.npmjs.org/
+26 silly mapToRegistry data Result {
+26 silly mapToRegistry   raw: 'mofron-parts-button',
+26 silly mapToRegistry   scope: null,
+26 silly mapToRegistry   escapedName: 'mofron-parts-button',
+26 silly mapToRegistry   name: 'mofron-parts-button',
+26 silly mapToRegistry   rawSpec: '',
+26 silly mapToRegistry   spec: 'latest',
+26 silly mapToRegistry   type: 'tag' }
+27 silly mapToRegistry uri https://registry.npmjs.org/mofron-parts-button
+28 verbose publish registryBase https://registry.npmjs.org/
+29 silly publish uploading /root/.npm/mofron-parts-button/0.0.4/package.tgz
+30 verbose request uri https://registry.npmjs.org/mofron-parts-button
+31 verbose request sending authorization for write operation
+32 info attempt registry request try #1 at 14:10:15
+33 verbose request using bearer token for auth
+34 verbose request id ef496ec975ff1a95
+35 http request PUT https://registry.npmjs.org/mofron-parts-button
+36 http 403 https://registry.npmjs.org/mofron-parts-button
+37 verbose headers { 'content-type': 'application/json',
+37 verbose headers   'cache-control': 'max-age=300',
+37 verbose headers   'content-length': '95',
+37 verbose headers   'accept-ranges': 'bytes',
+37 verbose headers   date: 'Sun, 18 Dec 2016 05:16:05 GMT',
+37 verbose headers   via: '1.1 varnish',
+37 verbose headers   connection: 'keep-alive',
+37 verbose headers   'x-served-by': 'cache-nrt6122-NRT',
+37 verbose headers   'x-cache': 'MISS',
+37 verbose headers   'x-cache-hits': '0',
+37 verbose headers   'x-timer': 'S1482038165.430830,VS0,VE189',
+37 verbose headers   vary: 'Accept-Encoding' }
+38 verbose request invalidating /root/.npm/registry.npmjs.org/mofron-parts-button on PUT
+39 error publish Failed PUT 403
+40 verbose stack Error: "You cannot publish over the previously published version 0.0.4." : mofron-parts-button
+40 verbose stack     at makeError (/usr/lib/node_modules/npm/node_modules.bundled/npm-registry-client/lib/request.js:302:12)
+40 verbose stack     at CachingRegistryClient.<anonymous> (/usr/lib/node_modules/npm/node_modules.bundled/npm-registry-client/lib/request.js:290:14)
+40 verbose stack     at Request._callback (/usr/lib/node_modules/npm/node_modules.bundled/npm-registry-client/lib/request.js:210:14)
+40 verbose stack     at Request.self.callback (/usr/lib/node_modules/npm/node_modules.bundled/request/request.js:187:22)
+40 verbose stack     at emitTwo (events.js:106:13)
+40 verbose stack     at Request.emit (events.js:191:7)
+40 verbose stack     at Request.<anonymous> (/usr/lib/node_modules/npm/node_modules.bundled/request/request.js:1044:10)
+40 verbose stack     at emitOne (events.js:96:13)
+40 verbose stack     at Request.emit (events.js:188:7)
+40 verbose stack     at IncomingMessage.<anonymous> (/usr/lib/node_modules/npm/node_modules.bundled/request/request.js:965:12)
+41 verbose statusCode 403
+42 verbose pkgid mofron-parts-button
+43 verbose cwd /home/taria/mofron/parts/base/mofron-parts-button
+44 error Linux 3.10.0-327.36.3.el7.x86_64
+45 error argv "/usr/bin/node" "/usr/bin/npm" "publish"
+46 error node v6.9.1
+47 error npm  v3.10.8
+48 error code E403
+49 error "You cannot publish over the previously published version 0.0.4." : mofron-parts-button
+50 error If you need help, you may report this error at:
+50 error     <https://github.com/npm/npm/issues>
+51 verbose exit [ 1, true ]
