@@ -2,7 +2,6 @@
  * @file   Button.js
  * @author simpart
  */
-require('mofron-parts-text');
 
 /**
  * @class Button
