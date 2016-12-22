@@ -1,3 +1,5 @@
+require('mofron-parts-text');
+require('mofron-event-click');
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
