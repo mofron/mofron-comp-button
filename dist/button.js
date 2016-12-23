@@ -1,5 +1,3 @@
-require('mofron-parts-text');
-require('mofron-event-click');
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -66,8 +64,8 @@ require('mofron-event-click');
 	/**
 	 * @class Button
 	 */
-	mofron.parts.Button = function (_mofron$parts$Base) {
-	    _inherits(_class, _mofron$parts$Base);
+	mofron.comp.Button = function (_mofron$comp$Base) {
+	    _inherits(_class, _mofron$comp$Base);
 
 	    function _class() {
 	        _classCallCheck(this, _class);
@@ -92,7 +90,7 @@ require('mofron-event-click');
 	                var btn = new mofron.util.Vdom('button');
 
 	                if ('string' === typeof prm) {
-	                    btn.addChild(new mofron.parts.Text(prm).getVdom());
+	                    btn.addChild(new mofron.comp.Text(prm).getVdom());
 	                } else if ('object' === (typeof cnt === 'undefined' ? 'undefined' : _typeof(cnt))) {
 	                    btn.addChild(prm.getVdom());
 	                } else {
@@ -164,7 +162,7 @@ require('mofron-event-click');
 	    }]);
 
 	    return _class;
-	}(mofron.parts.Base);
+	}(mofron.comp.Base);
 
 /***/ }
 /******/ ]);

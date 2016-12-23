@@ -6,7 +6,7 @@
 /**
  * @class Button
  */
-mofron.parts.Button = class extends mofron.parts.Base {
+mofron.comp.Button = class extends mofron.comp.Base {
     
     getTarget () {
         try {
@@ -22,7 +22,7 @@ mofron.parts.Button = class extends mofron.parts.Base {
             var btn = new mofron.util.Vdom('button');
             
             if ('string' === (typeof prm)) {
-                btn.addChild(new mofron.parts.Text(prm).getVdom());
+                btn.addChild(new mofron.comp.Text(prm).getVdom());
             } else if ('object' === (typeof cnt)) {
                 btn.addChild(prm.getVdom());
             } else {

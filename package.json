@@ -1,19 +1,19 @@
 {
-  "name": "mofron-parts-button",
-  "version": "0.0.8",
-  "description": "button of mofron base parts",
+  "name": "mofron-comp-button",
+  "version": "0.0.10",
+  "description": "button component for mofron",
   "main": "dist/button.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mofron": "^0.1.12",
-    "mofron-parts-text": "^0.0.4",
+    "mofron": "^0.1.14",
+    "mofron-parts-text": "^0.0.5",
     "mofron-event-click": "^0.0.2"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simpart/mofron-parts-button.git"
+    "url": "git+https://github.com/simpart/mofron-comp-button.git"
   },
   "keywords": [
     "mofron"
@@ -21,9 +21,9 @@
   "author": "simparts",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
-    "url": "https://github.com/simpart/mofron-parts-button/issues"
+    "url": "https://github.com/simpart/mofron-comp-button/issues"
   },
-  "homepage": "https://github.com/simpart/mofron-parts-button#readme",
+  "homepage": "https://github.com/simpart/mofron-comp-button#readme",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",

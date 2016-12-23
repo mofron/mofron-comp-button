@@ -1,1 +1,2 @@
-# mofron-parts-button
+# mofron-component-button
+button component for mofron
