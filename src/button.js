@@ -1,26 +1,23 @@
 /**
- * @file   Button.js
+ * @file   button.js
  * @author simpart
  */
 
 /**
- * @class Button
+ * @class mofron.comp.Button
+ * @brief base class of button component
  */
 mofron.comp.Button = class extends mofron.comp.Base {
     
-    getTarget () {
-        try {
-            return this.vdom.getChild(0);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
+    /**
+     * initialize DOM contents
+     *
+     * @param vd : (mofron.util.Vdom) vdom object
+     * @param prm : (string,mofron.comp.Text) button contents
+     */
     initContents (vd, prm) {
         try {
             var btn = new mofron.util.Vdom('button');
-            
             if ('string' === (typeof prm)) {
                 btn.addChild(new mofron.comp.Text(prm).getVdom());
             } else if ('object' === (typeof cnt)) {
@@ -30,9 +27,9 @@ mofron.comp.Button = class extends mofron.comp.Base {
             }
             
             vd.addChild(btn);
+            this.target = this.vdom.getChild(0);
             
             this.style('cursor', 'pointer');
-            this.width(50);
             this.height(25);
         } catch (e) {
             console.error(e.stack);
@@ -40,49 +37,69 @@ mofron.comp.Button = class extends mofron.comp.Base {
         }
     }
     
+    /**
+     * set button click event
+     *
+     * @param func : (function) function for click event listener
+     * @param prm : (mixed) function parameter (option)
+     */
     setClickEvent (func, prm) {
         try {
             if (null === func) {
                 throw new Error('invalid parameter');
             }
             var _prm  = (prm === undefined) ? null : prm;
-            var click = new mofron.event.Click();
-            click.setCbfunc (func, _prm);
-            this.addEvent(click);
+            this.addEvent(new mofron.event.Click(func, _prm));
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * button width getter/setter
+     * 
+     * @param val : (number,string) button width (option)
+     */
     width (val) {
         try {
             var _val = (val === undefined) ? null : val;
-            var btn  = this.getTarget();
+            var btn  = this.getStyleTgt();
             if (null === _val) {
                 return btn.getStyle('width');
             }
-            if ('number' != (typeof _val)) {
+            if ('number' === (typeof _val)) {
+                btn.setStyle('width', _val + 'px');
+            } else if ('string' === (typeof _val)) {
+                btn.setStyle('width', _val);
+            } else {
                 throw new Error('invalid parameter');
             }
-            btn.setStyle('width', _val + 'px');
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
+    /**
+     * button height getter/setter
+     * 
+     * @param val : (number,string) button height (option)
+     */
     height (val) {
         try {
             var _val = (val === undefined) ? null : val;
-            var btn  = this.getTarget();
+            var btn  = this.getStyleTgt();
             if (null === _val) {
                 return btn.getStyle('height');
             }
-            if ('number' != (typeof _val)) {
+            if ('number' === (typeof _val)) {
+                btn.setStyle('height', _val + 'px');
+            } else if ('string' === (typeof _val)) {
+                btn.setStyle('height', _val);
+            } else {
                 throw new Error('invalid parameter');
             }
-            btn.setStyle('height', _val + 'px');
         } catch (e) {
             console.error(e.stack);
             throw e;

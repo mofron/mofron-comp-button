@@ -1,15 +1,10 @@
 {
   "name": "mofron-comp-button",
-  "version": "0.0.10",
+  "version": "0.0.16",
   "description": "button component for mofron",
   "main": "dist/button.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "dependencies": {
-    "mofron": "^0.1.14",
-    "mofron-parts-text": "^0.0.5",
-    "mofron-event-click": "^0.0.2"
   },
   "repository": {
     "type": "git",
