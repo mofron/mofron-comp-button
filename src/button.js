@@ -105,4 +105,24 @@ mofron.comp.Button = class extends mofron.comp.Base {
             throw e;
         }
     }
+    
+    /**
+     * button color getter/setter
+     */
+    color (clr) {
+        try {
+            var _clr = (clr === undefined) ? null : clr;
+            var btn  = this.getStyleTgt();
+            if (null === _clr) {
+                return btn.getStyle('background');
+            }
+            if ('object' !== (typeof _clr)) {
+                throw new Error('invalid parameter');
+            }
+            btn.setStyle('background', _clr.getStyle());
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
