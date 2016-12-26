@@ -38,3 +38,12 @@ click.setClickEvent(function() {
 });
 click.init();
 ```
+
+#class specification
+
+| Method          | Parameter                                                                    |    Description                  |
+|:------------------|:-----------------------------------------------------------------|:-------------------------------|
+| setClickEvent | function : function for click event listener<br>mixed : function parameter (option)       |set button click event |
+| width              | number or string : button width (option)  | button width getter/setter. <br>(for getter, do not specify parameters) |
+| height             | number or string : button height (option) | button width getter/setter. <br>(for getter, do not specify parameters) |
+| color               | object : color                                               | button color getter/setter. <br>(for getter, do not specify parameters)  |
