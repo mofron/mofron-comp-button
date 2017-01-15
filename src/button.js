@@ -15,20 +15,25 @@ mofron.comp.Button = class extends mofron.comp.Base {
      * @param vd : (mofron.util.Vdom) vdom object
      * @param prm : (string,mofron.comp.Text) button contents
      */
-    initContents (vd, prm) {
+    initDomConts (vd, prm) {
         try {
-            var btn = new mofron.util.Vdom('button');
+            this.name('Button');  // update componant name
+            
+            /* set button tag */
+            var btn   = new mofron.util.Vdom('button');
+            vd.addChild(btn);
+            this.target = btn;
+            
+            /* set button contents */
+            var conts = prm;
             if ('string' === (typeof prm)) {
-                btn.addChild(new mofron.comp.Text(prm).getVdom());
-            } else if ('object' === (typeof cnt)) {
-                btn.addChild(prm.getVdom());
-            } else {
+                conts = new mofron.comp.Text(prm);
+            } else if ('object' !== (typeof cnt)) {
                 throw new Error('invalid parameter');
             }
+            this.addChild(conts);
             
-            vd.addChild(btn);
-            this.target = this.vdom.getChild(0);
-            
+            /* set style */
             this.style('cursor', 'pointer');
             this.height(25);
         } catch (e) {
@@ -45,11 +50,16 @@ mofron.comp.Button = class extends mofron.comp.Base {
      */
     setClickEvent (func, prm) {
         try {
-            if (null === func) {
+            if ( (null       === func)        ||
+                 ('function' !== typeof func) ) {
                 throw new Error('invalid parameter');
             }
-            var _prm  = (prm === undefined) ? null : prm;
-            this.addEvent(new mofron.event.Click(func, _prm));
+            this.addEvent(
+                new mofron.event.Click(
+                        func,
+                        (prm === undefined) ? null : prm
+                )
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -60,18 +70,19 @@ mofron.comp.Button = class extends mofron.comp.Base {
      * button width getter/setter
      * 
      * @param val : (number,string) button width (option)
+     * @note for getter, do not specify parameters
      */
     width (val) {
         try {
             var _val = (val === undefined) ? null : val;
-            var btn  = this.getStyleTgt();
             if (null === _val) {
-                return btn.getStyle('width');
+                return this.style('width');
             }
+            /* set style */
             if ('number' === (typeof _val)) {
-                btn.setStyle('width', _val + 'px');
+                this.style('width', _val + 'px');
             } else if ('string' === (typeof _val)) {
-                btn.setStyle('width', _val);
+                this.style('width', _val);
             } else {
                 throw new Error('invalid parameter');
             }
@@ -85,18 +96,19 @@ mofron.comp.Button = class extends mofron.comp.Base {
      * button height getter/setter
      * 
      * @param val : (number,string) button height (option)
+     * @note for getter, do not specify parameters
      */
     height (val) {
         try {
             var _val = (val === undefined) ? null : val;
-            var btn  = this.getStyleTgt();
             if (null === _val) {
-                return btn.getStyle('height');
+                return this.style('height');
             }
+            /* set style */
             if ('number' === (typeof _val)) {
-                btn.setStyle('height', _val + 'px');
+                this.style('height', _val + 'px');
             } else if ('string' === (typeof _val)) {
-                btn.setStyle('height', _val);
+                this.style('height', _val);
             } else {
                 throw new Error('invalid parameter');
             }
@@ -108,18 +120,21 @@ mofron.comp.Button = class extends mofron.comp.Base {
     
     /**
      * button color getter/setter
+     *
+     * @param clr : (object) color (option)
+     * @note for getter, do not specify parameters
      */
     color (clr) {
         try {
             var _clr = (clr === undefined) ? null : clr;
-            var btn  = this.getStyleTgt();
             if (null === _clr) {
-                return btn.getStyle('background');
+                return this.style('background');
             }
+            /* set style */
             if ('object' !== (typeof _clr)) {
                 throw new Error('invalid parameter');
             }
-            btn.setStyle('background', _clr.getStyle());
+            this.style('background', _clr.getStyle());
         } catch (e) {
             console.error(e.stack);
             throw e;
