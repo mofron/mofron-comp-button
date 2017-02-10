@@ -7,31 +7,54 @@
  * @class mofron.comp.Button
  * @brief base class of button component
  */
-mofron.comp.Button = class extends mofron.comp.Base {
+mofron.comp.Button = class extends mofron.Component {
+    
+    /**
+     * initialize button component
+     *
+     * @param prm (string) button text contents
+     * @param opt (object) option
+     */
+    constructor (prm, opt) {
+        try {
+            super(prm);
+            this.name('Button');
+            
+            if (null !== opt) {
+                this.option(opt);
+            }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
     
     /**
      * initialize DOM contents
      *
-     * @param vd : (mofron.util.Vdom) vdom object
      * @param prm : (string,mofron.comp.Text) button contents
      */
-    initDomConts (vd, prm) {
+    initDomConts (prm) {
         try {
-            this.name('Button');  // update componant name
-            
             /* set button tag */
-            var btn   = new mofron.util.Vdom('button');
-            vd.addChild(btn);
-            this.target = btn;
+            var btn = new mofron.util.Vdom('button', this);
+            this.vdom().addChild(btn);
+            this.target(btn);
             
             /* set button contents */
             var conts = prm;
             if ('string' === (typeof prm)) {
                 conts = new mofron.comp.Text(prm);
-            } else if ('object' !== (typeof cnt)) {
+            } else if ('object' !== (typeof conts)) {
                 throw new Error('invalid parameter');
             }
             this.addChild(conts);
+            
+            /* set color */
+            var clr = this.theme().getColor(0);
+            if (null !== clr) {
+                this.color(clr);
+            }
             
             /* set style */
             this.style('cursor', 'pointer');
@@ -50,7 +73,7 @@ mofron.comp.Button = class extends mofron.comp.Base {
      */
     setClickEvent (func, prm) {
         try {
-            if ( (null       === func)        ||
+            if ( (null       === func)  ||
                  ('function' !== typeof func) ) {
                 throw new Error('invalid parameter');
             }
@@ -58,7 +81,7 @@ mofron.comp.Button = class extends mofron.comp.Base {
                 new mofron.event.Click(
                         func,
                         (prm === undefined) ? null : prm
-                )
+                    )
             );
         } catch (e) {
             console.error(e.stack);
@@ -128,12 +151,18 @@ mofron.comp.Button = class extends mofron.comp.Base {
         try {
             var _clr = (clr === undefined) ? null : clr;
             if (null === _clr) {
-                return this.style('background');
+                return mofron.func.getColorObj(this.style('background'));
             }
             /* set style */
             if ('object' !== (typeof _clr)) {
                 throw new Error('invalid parameter');
             }
+            
+            var rgb = clr.getRgba();
+            if (290 > (rgb[0]+rgb[1]+rgb[2])) {
+                this.getChild(0).color(new mofron.util.Color(255, 255, 255));
+            }
+            
             this.style('background', _clr.getStyle());
         } catch (e) {
             console.error(e.stack);

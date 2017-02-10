@@ -67,42 +67,63 @@ require("mofron-event-click");
 	 * @class mofron.comp.Button
 	 * @brief base class of button component
 	 */
-	mofron.comp.Button = function (_mofron$comp$Base) {
-	    _inherits(_class, _mofron$comp$Base);
+	mofron.comp.Button = function (_mofron$Component) {
+	    _inherits(_class, _mofron$Component);
 
-	    function _class() {
+	    /**
+	     * initialize button component
+	     *
+	     * @param prm (string) button text contents
+	     * @param opt (object) option
+	     */
+	    function _class(prm, opt) {
 	        _classCallCheck(this, _class);
 
-	        return _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).apply(this, arguments));
+	        try {
+	            var _this = _possibleConstructorReturn(this, (_class.__proto__ || Object.getPrototypeOf(_class)).call(this, prm));
+
+	            _this.name('Button');
+
+	            if (null !== opt) {
+	                _this.option(opt);
+	            }
+	        } catch (e) {
+	            console.error(e.stack);
+	            throw e;
+	        }
+	        return _this;
 	    }
+
+	    /**
+	     * initialize DOM contents
+	     *
+	     * @param prm : (string,mofron.comp.Text) button contents
+	     */
+
 
 	    _createClass(_class, [{
 	        key: 'initDomConts',
-
-
-	        /**
-	         * initialize DOM contents
-	         *
-	         * @param vd : (mofron.util.Vdom) vdom object
-	         * @param prm : (string,mofron.comp.Text) button contents
-	         */
-	        value: function initDomConts(vd, prm) {
+	        value: function initDomConts(prm) {
 	            try {
-	                this.name('Button'); // update componant name
-
 	                /* set button tag */
-	                var btn = new mofron.util.Vdom('button');
-	                vd.addChild(btn);
-	                this.target = btn;
+	                var btn = new mofron.util.Vdom('button', this);
+	                this.vdom().addChild(btn);
+	                this.target(btn);
 
 	                /* set button contents */
 	                var conts = prm;
 	                if ('string' === typeof prm) {
 	                    conts = new mofron.comp.Text(prm);
-	                } else if ('object' !== (typeof cnt === 'undefined' ? 'undefined' : _typeof(cnt))) {
+	                } else if ('object' !== (typeof conts === 'undefined' ? 'undefined' : _typeof(conts))) {
 	                    throw new Error('invalid parameter');
 	                }
 	                this.addChild(conts);
+
+	                /* set color */
+	                var clr = this.theme().getColor(0);
+	                if (null !== clr) {
+	                    this.color(clr);
+	                }
 
 	                /* set style */
 	                this.style('cursor', 'pointer');
@@ -205,12 +226,18 @@ require("mofron-event-click");
 	            try {
 	                var _clr = clr === undefined ? null : clr;
 	                if (null === _clr) {
-	                    return this.style('background');
+	                    return mofron.func.getColorObj(this.style('background'));
 	                }
 	                /* set style */
 	                if ('object' !== (typeof _clr === 'undefined' ? 'undefined' : _typeof(_clr))) {
 	                    throw new Error('invalid parameter');
 	                }
+
+	                var rgb = clr.getRgba();
+	                if (290 > rgb[0] + rgb[1] + rgb[2]) {
+	                    this.getChild(0).color(new mofron.util.Color(255, 255, 255));
+	                }
+
 	                this.style('background', _clr.getStyle());
 	            } catch (e) {
 	                console.error(e.stack);
@@ -220,7 +247,7 @@ require("mofron-event-click");
 	    }]);
 
 	    return _class;
-	}(mofron.comp.Base);
+	}(mofron.Component);
 
 /***/ }
 /******/ ]);
