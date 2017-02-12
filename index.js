@@ -1,11 +1,13 @@
 /**
- * @file   button.js
+ * @file   index.js
  * @author simpart
  */
+require("mofron-comp-text");
+require("mofron-event-click");
 
 /**
- * @class mofron.comp.Button
- * @brief base class of button component
+ * @class comp.Button
+ * @brief button component class
  */
 mofron.comp.Button = class extends mofron.Component {
     
@@ -37,7 +39,7 @@ mofron.comp.Button = class extends mofron.Component {
     initDomConts (prm) {
         try {
             /* set button tag */
-            var btn = new mofron.util.Vdom('button', this);
+            var btn = new mofron.util.Dom('button', this);
             this.vdom().addChild(btn);
             this.target(btn);
             
