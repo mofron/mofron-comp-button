@@ -14,17 +14,15 @@ mofron.comp.Button = class extends mofron.Component {
     /**
      * initialize button component
      *
-     * @param prm (string) button text contents
-     * @param opt (object) option
+     * @param prm_opt (string) button text contents
+     * @param prm_opt (object) option object of key-value
      */
-    constructor (prm, opt) {
+    constructor (prm_opt) {
         try {
-            super(prm);
+            super();
             this.name('Button');
             
-            if (null !== opt) {
-                this.option(opt);
-            }
+            this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -34,7 +32,8 @@ mofron.comp.Button = class extends mofron.Component {
     /**
      * initialize DOM contents
      *
-     * @param prm : (string,mofron.comp.Text) button contents
+     * @param prm : (string) button contents
+     * @param prm : (object) component object of button contents
      */
     initDomConts (prm) {
         try {
@@ -68,13 +67,30 @@ mofron.comp.Button = class extends mofron.Component {
     }
     
     /**
-     * set button click event
-     *
+     * button click event setter / getter
+     * 
      * @param func : (function) function for click event listener
-     * @param prm : (mixed) function parameter (option)
+     * @param prm : (mixed) function parameter (not required)
+     * @return (object) [0] -> event function
+     *                  [1] -> function parameter
+     * @note do not specify parameters, if use as getter
      */
-    setClickEvent (func, prm) {
+    clickEvent (func, prm) {
         try {
+            if (undefined === func) {
+                /* getter */
+                var evt = this.event();
+                if (0 ===  evt.length) {
+                    return new Array(null,null);
+                }
+                for (var idx in evt) {
+                    if ('Click' === evt[idx].name()) {
+                        return evt[idx].eventFunc();
+                    }
+                }
+                return new Array(null,null);
+            }
+            /* setter */
             if ( (null       === func)  ||
                  ('function' !== typeof func) ) {
                 throw new Error('invalid parameter');
@@ -92,22 +108,24 @@ mofron.comp.Button = class extends mofron.Component {
     }
     
     /**
-     * button width getter/setter
+     * button width getter / setter
      * 
-     * @param val : (number,string) button width (option)
-     * @note for getter, do not specify parameters
+     * @param val : (number) button width (px)
+     * @param val : (string) button width (manual)
+     * @return (string) button width
+     * @note do not specify parameters, if use as getter
      */
     width (val) {
         try {
-            var _val = (val === undefined) ? null : val;
-            if (null === _val) {
+            if (undefined === val) {
+                /* getter */
                 return this.style('width');
             }
-            /* set style */
-            if ('number' === (typeof _val)) {
-                this.style('width', _val + 'px');
-            } else if ('string' === (typeof _val)) {
-                this.style('width', _val);
+            /* setter */
+            if ('number' === (typeof val)) {
+                this.style('width', val + 'px');
+            } else if ('string' === (typeof val)) {
+                this.style('width', val);
             } else {
                 throw new Error('invalid parameter');
             }
@@ -118,22 +136,24 @@ mofron.comp.Button = class extends mofron.Component {
     }
     
     /**
-     * button height getter/setter
+     * button height getter / setter
      * 
-     * @param val : (number,string) button height (option)
-     * @note for getter, do not specify parameters
+     * @param val : (number) button height (px)
+     * @param val : (string) button height (manual)
+     * @return (string) button height
+     * @note do not specify parameters, if use as getter
      */
     height (val) {
         try {
-            var _val = (val === undefined) ? null : val;
-            if (null === _val) {
+            if (undefined === val) {
+                /* getter */
                 return this.style('height');
             }
-            /* set style */
-            if ('number' === (typeof _val)) {
-                this.style('height', _val + 'px');
-            } else if ('string' === (typeof _val)) {
-                this.style('height', _val);
+            /* setter */
+            if ('number' === (typeof val)) {
+                this.style('height', val + 'px');
+            } else if ('string' === (typeof val)) {
+                this.style('height', val);
             } else {
                 throw new Error('invalid parameter');
             }
@@ -144,28 +164,30 @@ mofron.comp.Button = class extends mofron.Component {
     }
     
     /**
-     * button color getter/setter
+     * button color setter / getter
      *
-     * @param clr : (object) color (option)
-     * @note for getter, do not specify parameters
+     * @param clr : (object) mofron.util.Color object
+     * @return (null) no setting color
+     * @return (object) mofron.util.Color object
+     * @note do not specify parameters, if use as getter
      */
     color (clr) {
         try {
-            var _clr = (clr === undefined) ? null : clr;
-            if (null === _clr) {
+            if (undefined === clr) {
+                /* getter */
                 return mofron.func.getColorObj(this.style('background'));
             }
-            /* set style */
-            if ('object' !== (typeof _clr)) {
+            /* setter */
+            if ('object' !== (typeof clr)) {
                 throw new Error('invalid parameter');
             }
             
-            var rgb = clr.getRgba();
+            var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
                 this.getChild(0).color(new mofron.util.Color(255, 255, 255));
             }
             
-            this.style('background', _clr.getStyle());
+            this.style('background', clr.getStyle());
         } catch (e) {
             console.error(e.stack);
             throw e;
