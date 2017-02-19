@@ -12,15 +12,15 @@ please see [here](https://github.com/simpart/mofron) about an overview of mofron
 
 example
 ```javascript
-require('mofron');
-require('mofron-comp-button');
+let Mof = require('mofron');
+let Btn = require('mofron-comp-button');
 
-new mofron.comp.Button({
+new Btn({
     param      : 'TEST',  // required
     clickEvent : function () {alert('click');},
     width      : 150,
     height     : 40,
-    color      : new mofron.util.Color(255,255,255),
+    color      : new mofron.Color(255,255,255),
     visible    : true
 });
 ```
