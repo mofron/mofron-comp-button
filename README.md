@@ -32,4 +32,4 @@ new Btn({
 | clickEvent | function : function for click event listener<br>mixed : function parameter (not required)       |set button click event |
 | width              | number or string : button width  | button width getter/setter. <br>(do not specify parameters, if use as getter) |
 | height             | number or string : button height  | button width getter/setter. <br>(do not specify parameters, if use as getter) |
-| color               | object : mofron.util.Color                                     | button color getter/setter. <br>(do not specify parameters, if use as getter)  |
+| color               | object : mofron.Color                                     | button color getter/setter. <br>(do not specify parameters, if use as getter)  |
