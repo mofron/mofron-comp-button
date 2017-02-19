@@ -1,5 +1,5 @@
 /**
- * @file   index.js
+ * @file   mofron-comp-button/index.js
  * @author simpart
  */
 require("mofron-comp-text");
@@ -38,7 +38,7 @@ mofron.comp.Button = class extends mofron.Component {
     initDomConts (prm) {
         try {
             /* set button tag */
-            var btn = new mofron.util.Dom('button', this);
+            var btn = new mofron.Dom('button', this);
             this.vdom().addChild(btn);
             this.target(btn);
             
@@ -175,7 +175,7 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mofron.func.getColorObj(this.style('background'));
+                return mofron.func.getColor(this.style('background'));
             }
             /* setter */
             if ('object' !== (typeof clr)) {
@@ -184,7 +184,7 @@ mofron.comp.Button = class extends mofron.Component {
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                this.getChild(0).color(new mofron.util.Color(255, 255, 255));
+                this.getChild(0).color(new mofron.Color(255, 255, 255));
             }
             
             this.style('background', clr.getStyle());
@@ -194,3 +194,5 @@ mofron.comp.Button = class extends mofron.Component {
         }
     }
 }
+mofron.comp.button = {};
+module.exports = mofron.comp.Button;
