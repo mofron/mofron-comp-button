@@ -11,6 +11,17 @@ require("mofron-event-click");
  */
 mofron.comp.Button = class extends mofron.Component {
     
+    constructor (prm_opt) {
+        try {
+            super();
+            this.name('Button');
+            this.prmOpt(prm_opt);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
      * initialize DOM contents
      *
@@ -19,17 +30,14 @@ mofron.comp.Button = class extends mofron.Component {
      */
     initDomConts (prm) {
         try {
-            this.name('Button');
-            
             /* init contents */
             this.vdom().addChild(
                 new mofron.Dom('button', this)
             );
             
             /* set button contents */
-            this.addChild(
-                ('string' === typeof prm) ? new mofron.comp.Text(prm) : prm
-            );
+            this.text((null === prm) ? undefined : prm);
+            this.addChild(this.text());
             
             /* set style */
             this.style({'cursor' : 'pointer'});
@@ -44,7 +52,7 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             /* set theme color */
             this.color(
-                (null === this.theme().getColor(0)) ? undefined : this.theme().getColor(0)
+                (null === this.theme().color(0)) ? undefined : this.theme().color(0)
             );
         } catch (e) {
             console.error(e.stack);
@@ -160,10 +168,38 @@ mofron.comp.Button = class extends mofron.Component {
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                this.getChild(0).color(new mofron.Color(255, 255, 255));
+                this.child()[0].color(new mofron.Color(255, 255, 255));
             }
             
             this.style({'background' : clr.getStyle()});
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    text (txt) {
+        try {
+            if (undefined === txt) {
+                /* getter */
+                if (false === mofron.func.isObject(this.child()[0], 'Text')) {
+                    var txt = this.theme().component('mofron-comp-text');
+                    this.text(new txt(''));
+                }
+                return this.child()[0];
+            }
+            /* setter */
+            if (true === mofron.func.isInclude(txt, 'Text')) {
+                if (0 === this.child().length) {
+                    this.addChild(txt);
+                } else {
+                    this.updChild(this.child()[0], txt);
+                }
+            } else if ('string' === typeof txt) {
+                this.text().text(txt);
+            } else {
+                throw new Error('invalid parameter');
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
