@@ -37,11 +37,11 @@ mofron.comp.Button = class extends mofron.Component {
             
             /* set button contents */
             this.text((null === prm) ? undefined : prm);
-            this.addChild(this.text());
             
             /* set style */
             this.style({'cursor' : 'pointer'});
             this.height(25);
+            
         } catch (e) {
             console.error(e.stack);
             throw e;
