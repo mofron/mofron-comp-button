@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-button",
-  "version": "0.6.2",
+  "version": "0.6.5",
   "description": "button component for mofron",
   "main": "index.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/simpart/mofron-comp-button.git"
   },
   "keywords": [
-    "mofron"
+    "front end"
   ],
   "author": "simparts",
   "license": "SEE LICENSE IN LICENSE",

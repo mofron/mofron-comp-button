@@ -3,7 +3,7 @@
  * @author simpart
  */
 require("mofron-comp-text");
-require("mofron-event-click");
+let Click = require("mofron-event-click");
 
 /**
  * @class Button
@@ -36,30 +36,20 @@ mofron.comp.Button = class extends mofron.Component {
             );
             
             /* set button contents */
-            this.text((null === prm) ? undefined : prm);
+            this.text((null === prm) ? '' : prm);
+            this.text().size(20);
             
             /* set style */
             this.style({'cursor' : 'pointer'});
             this.height(25);
+            let thm_clr = this.theme().color(0);
+            this.color( (null === thm_clr) ? undefined : thm_clr );
             
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
-    
-    themeConts () {
-        try {
-            /* set theme color */
-            this.color(
-                (null === this.theme().color(0)) ? undefined : this.theme().color(0)
-            );
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     
     /**
      * button click event setter / getter
@@ -88,7 +78,7 @@ mofron.comp.Button = class extends mofron.Component {
                 throw new Error('invalid parameter');
             }
             this.addEvent(
-                new mofron.event.Click(
+                new Click(
                     func,
                     (prm === undefined) ? null : prm
                 )
@@ -162,12 +152,13 @@ mofron.comp.Button = class extends mofron.Component {
                 return mofron.func.getColor(this.style('background'));
             }
             /* setter */
-            if (false  === mofron.func.isObject(clr, 'Color')) {
+            if (false === mofron.func.isInclude(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
+                /* set text color */
                 this.child()[0].color(new mofron.Color(255, 255, 255));
             }
             
