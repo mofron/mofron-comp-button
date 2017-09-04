@@ -3,7 +3,7 @@
  * @author simpart
  */
 require("mofron-comp-text");
-let Click = require("mofron-event-click");
+require("mofron-event-click");
 
 /**
  * @class Button
@@ -11,11 +11,11 @@ let Click = require("mofron-event-click");
  */
 mofron.comp.Button = class extends mofron.Component {
     
-    constructor (prm_opt) {
+    constructor (po) {
         try {
-            super();
+            super(po);
             this.name('Button');
-            this.prmOpt(prm_opt);
+            //this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -36,20 +36,34 @@ mofron.comp.Button = class extends mofron.Component {
             );
             
             /* set button contents */
-            this.text((null === prm) ? '' : prm);
-            this.text().size(20);
+            let txt = this.theme().component('mofron-comp-text');
+            txt.text((null === prm) ? undefined : prm);
             
-            /* set style */
+            this.addChild(txt);
+            //this.text((null === prm) ? undefined : prm);
+            
+            ///* set style */
             this.style({'cursor' : 'pointer'});
             this.height(25);
-            let thm_clr = this.theme().color(0);
-            this.color( (null === thm_clr) ? undefined : thm_clr );
             
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
+    
+    themeConts () {
+        try {
+            /* set theme color */
+            this.color(
+                (null === this.theme().color(0)) ? undefined : this.theme().color(0)
+            );
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     
     /**
      * button click event setter / getter
@@ -78,7 +92,7 @@ mofron.comp.Button = class extends mofron.Component {
                 throw new Error('invalid parameter');
             }
             this.addEvent(
-                new Click(
+                new mofron.event.Click(
                     func,
                     (prm === undefined) ? null : prm
                 )
@@ -152,13 +166,12 @@ mofron.comp.Button = class extends mofron.Component {
                 return mofron.func.getColor(this.style('background'));
             }
             /* setter */
-            if (false === mofron.func.isInclude(clr, 'Color')) {
+            if (false  === mofron.func.isObject(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                /* set text color */
                 this.child()[0].color(new mofron.Color(255, 255, 255));
             }
             
@@ -173,10 +186,6 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === txt) {
                 /* getter */
-                if (false === mofron.func.isObject(this.child()[0], 'Text')) {
-                    var txt = this.theme().component('mofron-comp-text');
-                    this.text(new txt(''));
-                }
                 return this.child()[0];
             }
             /* setter */
