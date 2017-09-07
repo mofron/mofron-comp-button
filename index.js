@@ -30,14 +30,13 @@ mofron.comp.Button = class extends mofron.Component {
     initDomConts (prm) {
         try {
             /* init contents */
-            this.vdom().addChild(
+            this.adom().addChild(
                 new mofron.Dom('button', this)
             );
-            
             /* set contents */
             let txt = this.theme().component('mofron-comp-text');
-            txt.text((null === prm) ? undefined : prm);
             this.addChild(txt);
+            txt.text((null === prm) ? undefined : prm);
             
             /* set style */
             this.style({'cursor' : 'pointer'});
