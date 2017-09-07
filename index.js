@@ -15,7 +15,6 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             super(po);
             this.name('Button');
-            //this.prmOpt(prm_opt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -35,35 +34,25 @@ mofron.comp.Button = class extends mofron.Component {
                 new mofron.Dom('button', this)
             );
             
-            /* set button contents */
+            /* set contents */
             let txt = this.theme().component('mofron-comp-text');
             txt.text((null === prm) ? undefined : prm);
-            
             this.addChild(txt);
-            //this.text((null === prm) ? undefined : prm);
             
-            ///* set style */
+            /* set style */
             this.style({'cursor' : 'pointer'});
             this.height(25);
             
+            /* set color */
+            let clr = this.theme().color();
+            if (null !== clr) {
+                this.color(clr[0]);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
-    
-    themeConts () {
-        try {
-            /* set theme color */
-            this.color(
-                (null === this.theme().color(0)) ? undefined : this.theme().color(0)
-            );
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
     
     /**
      * button click event setter / getter
@@ -190,7 +179,7 @@ mofron.comp.Button = class extends mofron.Component {
             }
             /* setter */
             if (true === mofron.func.isInclude(txt, 'Text')) {
-                if (0 === this.child().length) {
+                if (0 === this.m_child.length) {
                     this.addChild(txt);
                 } else {
                     this.updChild(this.child()[0], txt);
