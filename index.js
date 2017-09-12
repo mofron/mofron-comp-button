@@ -2,8 +2,9 @@
  * @file   mofron-comp-button/index.js
  * @author simpart
  */
-require("mofron-comp-text");
-require("mofron-event-click");
+let mf = require('mofron');
+let Text  = require("mofron-comp-text");
+let Click = require("mofron-event-click");
 
 /**
  * @class Button
@@ -13,8 +14,9 @@ mofron.comp.Button = class extends mofron.Component {
     
     constructor (po) {
         try {
-            super(po);
+            super();
             this.name('Button');
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -31,21 +33,40 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             /* init contents */
             this.adom().addChild(
-                new mofron.Dom('button', this)
+                new mf.Dom('button', this)
             );
+            
             /* set contents */
-            let txt = this.theme().component('mofron-comp-text');
-            this.addChild(txt);
-            txt.text((null === prm) ? undefined : prm);
+            this.addChild(
+                new Text({
+                    text : (null === prm) ? '' : prm
+                })
+            );
             
             /* set style */
-            this.style({'cursor' : 'pointer'});
+            this.style({ 'cursor' : 'pointer' });
             this.height(25);
             
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    themeConts (thm) {
+        try {
+            /* set text component */
+            let txt = thm.component('mofron-comp-text');
+            if ( (null !== txt) &&
+                 (true === mf.func.isObject(this.text(), 'Text'))) {
+                txt.execOption(this.text().getOption());
+                this.text(txt);
+            }
             /* set color */
-            let clr = this.theme().color();
-            if (null !== clr) {
-                this.color(clr[0]);
+            let clr = this.theme().color(0);
+            if ( (null !== clr) &&
+                 (null === this.color())) {
+                this.color(clr);
             }
         } catch (e) {
             console.error(e.stack);
@@ -80,7 +101,7 @@ mofron.comp.Button = class extends mofron.Component {
                 throw new Error('invalid parameter');
             }
             this.addEvent(
-                new mofron.event.Click(
+                new Click(
                     func,
                     (prm === undefined) ? null : prm
                 )
@@ -103,7 +124,7 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return mofron.func.getLength(this.style('width'));
+                return mf.func.getLength(this.style('width'));
             }
             /* setter */
             this.style({
@@ -127,7 +148,7 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === val) {
                 /* getter */
-                return mofron.func.getLength(this.style('height'));
+                return mf.func.getLength(this.style('height'));
             }
             /* setter */
             this.style({
@@ -151,16 +172,16 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mofron.func.getColor(this.style('background'));
+                return mf.func.getColor(this.style('background'));
             }
             /* setter */
-            if (false  === mofron.func.isObject(clr, 'Color')) {
+            if (false  === mf.func.isObject(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                this.child()[0].color(new mofron.Color(255, 255, 255));
+                this.child()[0].color(new mf.Color(255, 255, 255));
             }
             
             this.style({'background' : clr.getStyle()});
@@ -177,7 +198,7 @@ mofron.comp.Button = class extends mofron.Component {
                 return this.child()[0];
             }
             /* setter */
-            if (true === mofron.func.isInclude(txt, 'Text')) {
+            if (true === mf.func.isInclude(txt, 'Text')) {
                 if (0 === this.m_child.length) {
                     this.addChild(txt);
                 } else {
