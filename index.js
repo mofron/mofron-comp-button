@@ -2,20 +2,21 @@
  * @file   mofron-comp-button/index.js
  * @author simpart
  */
-require("mofron-comp-text");
-require("mofron-event-click");
+let mf = require('mofron');
+let Text  = require("mofron-comp-text");
+let Click = require("mofron-event-click");
 
 /**
  * @class Button
  * @brief button component class
  */
-mofron.comp.Button = class extends mofron.Component {
+mf.comp.Button = class extends mf.Component {
     
     constructor (po) {
         try {
-            super(po);
+            super();
             this.name('Button');
-            //this.prmOpt(prm_opt);
+            this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -30,20 +31,18 @@ mofron.comp.Button = class extends mofron.Component {
      */
     initDomConts (prm) {
         try {
-            /* init contents */
-            this.vdom().addChild(
-                new mofron.Dom('button', this)
+            /* init top of tag */
+            super.initDomConts('button');
+            
+            /* set contents */
+            this.addChild(
+                new Text({
+                    text : (null === prm) ? '' : prm
+                })
             );
             
-            /* set button contents */
-            let txt = this.theme().component('mofron-comp-text');
-            txt.text((null === prm) ? undefined : prm);
-            
-            this.addChild(txt);
-            //this.text((null === prm) ? undefined : prm);
-            
-            ///* set style */
-            this.style({'cursor' : 'pointer'});
+            /* set style */
+            this.style({ 'cursor' : 'pointer' });
             this.height(25);
             
         } catch (e) {
@@ -52,18 +51,26 @@ mofron.comp.Button = class extends mofron.Component {
         }
     }
     
-    themeConts () {
+    themeConts (thm) {
         try {
-            /* set theme color */
-            this.color(
-                (null === this.theme().color(0)) ? undefined : this.theme().color(0)
-            );
+            /* set text component */
+            let txt = thm.component('mofron-comp-text');
+            if ( (null !== txt) &&
+                 (true === mf.func.isObject(this.text(), 'Text'))) {
+                txt.execOption(this.text().getOption());
+                this.text(txt);
+            }
+            /* set color */
+            let clr = this.theme().color(0);
+            if ( (null !== clr) &&
+                 (null === this.color())) {
+                this.color(clr);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
-    
     
     /**
      * button click event setter / getter
@@ -92,59 +99,11 @@ mofron.comp.Button = class extends mofron.Component {
                 throw new Error('invalid parameter');
             }
             this.addEvent(
-                new mofron.event.Click(
+                new Click(
                     func,
                     (prm === undefined) ? null : prm
                 )
             );
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * button width getter / setter
-     * 
-     * @param val : (number) button width (px)
-     * @param val : (string) button width (manual)
-     * @return (string) button width
-     * @note do not specify parameters, if use as getter
-     */
-    width (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return mofron.func.getLength(this.style('width'));
-            }
-            /* setter */
-            this.style({
-                'width' : ('number' === typeof val) ? (val + 'px') : val
-            });
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * button height getter / setter
-     * 
-     * @param val : (number) button height (px)
-     * @param val : (string) button height (manual)
-     * @return (string) button height
-     * @note do not specify parameters, if use as getter
-     */
-    height (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return mofron.func.getLength(this.style('height'));
-            }
-            /* setter */
-            this.style({
-                'height' : ('number' === typeof val) ? (val + 'px') : val
-            });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -163,16 +122,16 @@ mofron.comp.Button = class extends mofron.Component {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mofron.func.getColor(this.style('background'));
+                return mf.func.getColor(this.style('background'));
             }
             /* setter */
-            if (false  === mofron.func.isObject(clr, 'Color')) {
+            if (false  === mf.func.isObject(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
             
             var rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                this.child()[0].color(new mofron.Color(255, 255, 255));
+                this.child()[0].color(new mf.Color(255, 255, 255));
             }
             
             this.style({'background' : clr.getStyle()});
@@ -189,8 +148,8 @@ mofron.comp.Button = class extends mofron.Component {
                 return this.child()[0];
             }
             /* setter */
-            if (true === mofron.func.isInclude(txt, 'Text')) {
-                if (0 === this.child().length) {
+            if (true === mf.func.isInclude(txt, 'Text')) {
+                if (0 === this.m_child.length) {
                     this.addChild(txt);
                 } else {
                     this.updChild(this.child()[0], txt);
