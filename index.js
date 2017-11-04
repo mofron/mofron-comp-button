@@ -110,6 +110,7 @@ mf.comp.Button = class extends mf.Component {
         }
     }
     
+    
     /**
      * button color setter / getter
      *
