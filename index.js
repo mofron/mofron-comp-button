@@ -5,7 +5,6 @@
 let mf = require('mofron');
 let Text  = require("mofron-comp-text");
 let Click = require("mofron-event-click");
-
 /**
  * @class Button
  * @brief button component class
@@ -51,19 +50,17 @@ mf.comp.Button = class extends mf.Component {
         }
     }
     
-    themeConts (thm) {
+    themeConts () {
         try {
             /* set text component */
-            let txt = thm.component('mofron-comp-text');
-            if ( (null !== txt) &&
-                 (true === mf.func.isObject(this.text(), 'Text'))) {
+            let txt = this.theme().component('mofron-comp-text');
+            if (null !== txt) {
                 txt.execOption(this.text().getOption());
                 this.text(txt);
             }
             /* set color */
             let clr = this.theme().color(0);
-            if ( (null !== clr) &&
-                 (null === this.color())) {
+            if (null !== clr) {
                 this.color(clr);
             }
         } catch (e) {
@@ -160,6 +157,21 @@ mf.comp.Button = class extends mf.Component {
             } else {
                 throw new Error('invalid parameter');
             }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    height (val, tflg) {
+        try {
+            let ret = super.height(val);
+            if (undefined === ret) {
+                if ((false !== tflg) && (val !== 25)) {
+                    this.text().size(val/2);
+                }
+            }
+            return ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
