@@ -167,9 +167,9 @@ mf.comp.Button = class extends mf.Component {
         try {
             let ret = super.height(val);
             if (undefined === ret) {
-                if ((false !== tflg) && (val !== 25)) {
-                    this.text().size(val/2);
-                }
+                //if ((false !== tflg) && (val !== 25)) {
+                    this.text().size(val*0.6);
+                //}
             }
             return ret;
         } catch (e) {
