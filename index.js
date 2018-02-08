@@ -1,27 +1,49 @@
 /**
- * @file   Text.js
+ * @file   mofron-comp-button/index.js
  * @author simpart
  */
 let mf = require('mofron');
+let Text  = require("mofron-comp-text");
+let Click = require("mofron-event-click");
 /**
- * @class Text
- * @brief text component for mofron
+ * @class Button
+ * @brief button component class
  */
-mf.comp.Text = class extends mf.Component {
+mf.comp.Button = class extends mf.Component {
+    
+    constructor (po) {
+        try {
+            super();
+            this.name('Button');
+            this.prmOpt(po);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     /**
-     * initialize vdom
-     * 
-     * @param prm : (string) text contents
+     * initialize DOM contents
+     *
+     * @param prm : (string) button contents
+     * @param prm : (object) component object of button contents
      */
     initDomConts (prm) {
         try {
-            this.name('Text');
-            super.initDomConts();
+            /* init top of tag */
+            super.initDomConts('button');
             
             /* set contents */
-            this.text((null === prm) ? '' : prm);
-            /* set default size */
-            this.size(24);
+            this.addChild(
+                new Text({
+                    text : (null === prm) ? '' : prm
+                })
+            );
+            
+            /* set style */
+            this.style({ 'cursor' : 'pointer' });
+            this.height(25);
+            
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -30,9 +52,16 @@ mf.comp.Text = class extends mf.Component {
     
     themeConts () {
         try {
-            let fnt = this.theme().font(0);
-            if ( (null !== fnt) && (null === this.font()) ) {
-                this.font(fnt, true);
+            /* set text component */
+            let txt = this.theme().component('mofron-comp-text');
+            if (null !== txt) {
+                txt.execOption(this.text().getOption());
+                this.text(txt);
+            }
+            /* set color */
+            let clr = this.theme().color(0);
+            if (null !== clr) {
+                this.color(clr);
             }
         } catch (e) {
             console.error(e.stack);
@@ -41,126 +70,92 @@ mf.comp.Text = class extends mf.Component {
     }
     
     /**
-     * text contents setter / getter
-     *
-     * @param val : (string) text contents
-     * @return (string) text contents
-     * @note do not specify parameters, if use as getter
-     */
-    text (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return this.target().text();
-            }
-            /* setter */
-            this.target().text(val);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * text size setter / getter
-     *
-     * @param val : (number) font size (px)
-     * @param val : (string,null) font size (manual)
-     * @return (string) font size
-     * @note do not specify parameters, if use as getter
-     */
-    size (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                let ret_siz = mf.func.getLength(this.style('font-size'));
-                if ((null !== ret_siz) && ('number' === typeof ret_siz)) {
-                    return ret_siz + (ret_siz/2);
-                }
-                return ret_siz;
-            }
-            /* setter */
-            if ('number' === typeof val) {
-                let buf = 2*val;
-                val = buf/3 + 'px';
-            }
-            this.style({ 'font-size' : val });
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    height (val) {
-        try {
-            if (undefined === val) {
-                /* getter */
-                return this.size();
-            }
-            /* setter */
-            this.size(val);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
-     * text color setter / getter
+     * button click event setter / getter
      * 
-     * @param clr : (mofron.Color) color object
-     * @return (string) color
+     * @param func : (function) function for click event listener
+     * @param prm : (mixed) function parameter (not required)
+     * @return (object) [0] -> event function
+     *                  [1] -> function parameter
+     * @note do not specify parameters, if use as getter
+     */
+    clickEvent (func, prm) {
+        try {
+            if (undefined === func) {
+                /* getter */
+                var evt = this.event();
+                for (var idx in evt) {
+                    if ('Click' === evt[idx].name()) {
+                        return evt[idx].eventFunc();
+                    }
+                }
+                return new Array(null,null);
+            }
+            /* setter */
+            if ( (null       === func)  ||
+                 ('function' !== typeof func) ) {
+                throw new Error('invalid parameter');
+            }
+            this.addEvent(
+                new Click(
+                    func,
+                    (prm === undefined) ? null : prm
+                )
+            );
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    
+    /**
+     * button color setter / getter
+     *
+     * @param clr : (object) mofron.util.Color object
+     * @return (null) no setting color
+     * @return (object) mofron.util.Color object
      * @note do not specify parameters, if use as getter
      */
     color (clr) {
         try {
             if (undefined === clr) {
                 /* getter */
-                return mf.func.getColorObj(this.style('color'));
+                return mf.func.getColor(this.style('background'));
             }
             /* setter */
-            if (false === mf.func.isInclude(clr, 'Color')) {
+            if (false  === mf.func.isObject(clr, 'Color')) {
                 throw new Error('invalid parameter');
             }
-            this.style({ 'color' : clr.getStyle() });
+            
+            var rgb = clr.rgba();
+            if (290 > (rgb[0]+rgb[1]+rgb[2])) {
+                this.child()[0].color(new mf.Color(255, 255, 255));
+            }
+            
+            this.style({'background' : clr.getStyle()});
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
     
-    /**
-     * text font setter / getter
-     * 
-     * @param fnt : (object) mofron.util.Font object
-     * @param thm : (boolean) theme flag
-     *                        true  : set font as theme
-     *                        false : set font (default)
-     * @return (object) mofron.util.Font object
-     * @note do not specify parameters, if use as getter
-     */
-    font (fnt, thm) {
+    text (txt) {
         try {
-            if (undefined === fnt) {
+            if (undefined === txt) {
                 /* getter */
-                return this.style('font-family');
+                return this.child()[0];
             }
             /* setter */
-            var _thm = (undefined === thm) ? false : thm;
-            if ( (false     === mf.func.isInclude(fnt, 'Font')) ||
-                 ('boolean' !== typeof _thm) ) {
-                throw new Error('invalid parameter');
-            }
-            if (false === _thm) {
-                this.style({ 'font-family' : fnt.getFamilyStyle() });
-            } else {
-                var clnm = this.target().className();
-                for (var idx in clnm) {
-                    if (clnm[idx] === fnt.className()) {
-                        return;
-                    }
+            if (true === mf.func.isInclude(txt, 'Text')) {
+                if (0 === this.m_child.length) {
+                    this.addChild(txt);
+                } else {
+                    this.updChild(this.child()[0], txt);
                 }
-                this.target().className(fnt.className());
+            } else if ('string' === typeof txt) {
+                this.text().text(txt);
+            } else {
+                throw new Error('invalid parameter');
             }
         } catch (e) {
             console.error(e.stack);
@@ -168,26 +163,20 @@ mf.comp.Text = class extends mf.Component {
         }
     }
     
-    space (val) {
+    height (val, tflg) {
         try {
-            if (undefined === val) {
-                /* getter */
-                return mf.func.getLength(
-                    this.style('letter-spacing')
-                );
+            let ret = super.height(val);
+            if (undefined === ret) {
+                //if ((false !== tflg) && (val !== 25)) {
+                    this.text().size(val*0.6);
+                //}
             }
-            /* setter */
-            if ('number' !== typeof val) {
-                throw new Error('invalid parameter');
-            }
-            this.style({
-                'letter-spacing' : val + 'px'
-            });
+            return ret;
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
-module.exports = mofron.comp.Text;
-/* end of file */
+mofron.comp.button = {};
+module.exports = mofron.comp.Button;
