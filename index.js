@@ -11,6 +11,16 @@ let Click = require("mofron-event-click");
  */
 mf.comp.Button = class extends mf.Component {
     
+    constructor (po) {
+        try {
+            super();
+            this.name('Button');
+            this.prmOpt(po);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
     /**
      * initialize DOM contents
      *
@@ -19,7 +29,6 @@ mf.comp.Button = class extends mf.Component {
      */
     initDomConts (prm) {
         try {
-            this.name('Button');
             super.initDomConts('button');
             
             /* set contents */
