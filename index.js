@@ -32,12 +32,13 @@ mf.comp.Button = class extends mf.Component {
             super.initDomConts('button');
             
             /* set contents */
-            this.addChild(
-                new Text({
-                    text : (null === prm) ? '' : prm
-                })
-            );
-            
+            if (true === mf.func.isInclude(prm, 'Text')) {
+                this.addChild(prm);
+            } else if (undefined === prm) {
+                this.addChild(new Text(''));
+            } else if ('string' === typeof prm) {
+                this.addChild(new Text(prm));
+            }
             /* set style */
             this.style({ 'cursor' : 'pointer' });
             this.height(25);
@@ -165,9 +166,7 @@ mf.comp.Button = class extends mf.Component {
         try {
             let ret = super.height(val);
             if (undefined === ret) {
-                //if ((false !== tflg) && (val !== 25)) {
-                    this.text().size(val*0.6);
-                //}
+                this.text().size(val*0.9);
             }
             return ret;
         } catch (e) {
