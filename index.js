@@ -174,6 +174,28 @@ mf.comp.Button = class extends mf.Component {
             throw e;
         }
     }
+    
+    disableSts (prm) {
+        try {
+            if (undefined === prm) {
+                /* getter */
+                return (undefined === this.m_disable) ? false : this.m_disable;
+            }
+            /* setter */
+            if ('boolean' !== typeof prm) {
+                throw new Error('invalid parameter');
+            }
+            this.m_disable = prm;
+            if (true === prm) {
+                this.target().attr({ 'disabled' : 'disabled' });
+            } else {
+                this.target().attr({ 'disabled' : null });
+            }
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
 }
 module.exports = mofron.comp.Button;
 /* end of file */
