@@ -42,7 +42,15 @@ mf.comp.Button = class extends mf.Component {
             /* set style */
             this.style({ 'cursor' : 'pointer' });
             this.height(25);
-            
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    responsive (prm) {
+        try {
+            this.size('100%', 100);
         } catch (e) {
             console.error(e.stack);
             throw e;
