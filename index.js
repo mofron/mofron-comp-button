@@ -42,15 +42,11 @@ mf.comp.Button = class extends mf.Component {
             /* set style */
             this.style({ 'cursor' : 'pointer' });
             this.height(25);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    responsive (prm) {
-        try {
-            this.size('100%', 100);
+            this.responsive(
+                { width  : '100%',
+                  height : 50 },
+                true
+            );
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -170,7 +166,7 @@ mf.comp.Button = class extends mf.Component {
         }
     }
     
-    height (val, tflg) {
+    height (val) {
         try {
             let ret = super.height(val);
             if (undefined === ret) {

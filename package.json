@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-button",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "button component for mofron",
   "main": "index.js",
   "scripts": {
