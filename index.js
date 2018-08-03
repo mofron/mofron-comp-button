@@ -2,9 +2,9 @@
  * @file   mofron-comp-button/index.js
  * @author simpart
  */
-let mf = require('mofron');
-let Text  = require("mofron-comp-text");
-let Click = require("mofron-event-click");
+const mf = require('mofron');
+const Text  = require("mofron-comp-text");
+const Click = require("mofron-event-click");
 /**
  * @class Button
  * @brief button component class
@@ -15,6 +15,7 @@ mf.comp.Button = class extends mf.Component {
         try {
             super();
             this.name('Button');
+            this.prmMap('text', 'clickEvent');
             this.prmOpt(po);
         } catch (e) {
             console.error(e.stack);
@@ -27,40 +28,16 @@ mf.comp.Button = class extends mf.Component {
      * @param prm : (string) button contents
      * @param prm : (object) component object of button contents
      */
-    initDomConts (prm) {
+    initDomConts () {
         try {
             super.initDomConts('button');
             
             /* set contents */
-            if (true === mf.func.isInclude(prm, 'Text')) {
-                this.addChild(prm);
-            } else if (undefined === prm) {
-                this.addChild(new Text(''));
-            } else if ('string' === typeof prm) {
-                this.addChild(new Text(prm));
-            }
+            this.addChild(new Text(''));
+            
             /* set style */
             this.style({ 'cursor' : 'pointer' });
             this.height(25);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    themeConts () {
-        try {
-            /* set text component */
-            let txt = this.theme().component('mofron-comp-text');
-            if (null !== txt) {
-                txt.execOption(this.text().getOption());
-                this.text(txt);
-            }
-            /* set color */
-            let clr = this.theme().color(0);
-            if (null !== clr) {
-                this.color(clr);
-            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -80,8 +57,8 @@ mf.comp.Button = class extends mf.Component {
         try {
             if (undefined === func) {
                 /* getter */
-                var evt = this.event();
-                for (var idx in evt) {
+                let evt = this.event();
+                for (let idx in evt) {
                     if ('Click' === evt[idx].name()) {
                         return evt[idx].eventFunc();
                     }
@@ -114,7 +91,7 @@ mf.comp.Button = class extends mf.Component {
      * @return (object) mofron.util.Color object
      * @note do not specify parameters, if use as getter
      */
-    color (clr) {
+    mainColor (clr) {
         try {
             if (undefined === clr) {
                 /* getter */
@@ -145,11 +122,7 @@ mf.comp.Button = class extends mf.Component {
             }
             /* setter */
             if (true === mf.func.isInclude(txt, 'Text')) {
-                if (0 === this.m_child.length) {
-                    this.addChild(txt);
-                } else {
-                    this.updChild(this.child()[0], txt);
-                }
+                this.updChild(this.child()[0], txt);
             } else if ('string' === typeof txt) {
                 this.text().text(txt);
             } else {
