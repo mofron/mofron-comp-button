@@ -37,7 +37,7 @@ mf.comp.Button = class extends mf.Component {
             
             /* set style */
             this.style({ 'cursor' : 'pointer' });
-            this.height(25);
+            this.height(0.25);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -124,7 +124,9 @@ mf.comp.Button = class extends mf.Component {
             if (true === mf.func.isInclude(txt, 'Text')) {
                 this.updChild(this.child()[0], txt);
             } else if ('string' === typeof txt) {
-                this.text().text(txt);
+                this.text().execOption({
+                    text : txt
+                });
             } else {
                 throw new Error('invalid parameter');
             }
@@ -138,7 +140,9 @@ mf.comp.Button = class extends mf.Component {
         try {
             let ret = super.height(val);
             if (undefined === ret) {
-                this.text().size(val*0.7);
+                this.text().execOption({
+                    size : val - 0.1
+                });
             }
             return ret;
         } catch (e) {
