@@ -2,7 +2,7 @@
  * @file   mofron-comp-button/index.js
  * @author simpart
  */
-const mf = require('mofron');
+const mf    = require('mofron');
 const Text  = require("mofron-comp-text");
 const Click = require("mofron-event-click");
 /**
@@ -15,6 +15,7 @@ mf.comp.Button = class extends mf.Component {
         try {
             super();
             this.name('Button');
+            this.sizeType('rem');
             this.prmMap('text', 'clickEvent');
             this.prmOpt(po);
         } catch (e) {
@@ -141,7 +142,7 @@ mf.comp.Button = class extends mf.Component {
             let ret = super.height(val);
             if (undefined === ret) {
                 this.text().execOption({
-                    size : val - 0.1
+                    size : mofron.func.sizeDiff(val, '0.12rem')
                 });
             }
             return ret;
@@ -151,17 +152,17 @@ mf.comp.Button = class extends mf.Component {
         }
     }
     
-    disableSts (prm) {
+    status (prm) {
         try {
             if (undefined === prm) {
                 /* getter */
-                return (undefined === this.m_disable) ? false : this.m_disable;
+                return (undefined === this.m_status) ? false : this.m_status;
             }
             /* setter */
             if ('boolean' !== typeof prm) {
                 throw new Error('invalid parameter');
             }
-            this.m_disable = prm;
+            this.m_status = prm;
             if (true === prm) {
                 this.target().attr({ 'disabled' : 'disabled' });
             } else {
