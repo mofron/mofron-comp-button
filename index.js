@@ -11,13 +11,12 @@ const Click = require("mofron-event-click");
  */
 mf.comp.Button = class extends mf.Component {
     
-    constructor (po) {
+    constructor (po, p2) {
         try {
             super();
             this.name('Button');
-            this.sizeType('rem');
             this.prmMap('text', 'clickEvent');
-            this.prmOpt(po);
+            this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -38,7 +37,7 @@ mf.comp.Button = class extends mf.Component {
             
             /* set style */
             this.style({ 'cursor' : 'pointer' });
-            this.height(0.25);
+            this.height('0.25rem');
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -64,25 +63,18 @@ mf.comp.Button = class extends mf.Component {
                         return evt[idx].eventFunc();
                     }
                 }
-                return new Array(null,null);
+                return [null,null];
             }
             /* setter */
-            if ( (null       === func)  ||
-                 ('function' !== typeof func) ) {
+            if ('function' !== typeof func) {
                 throw new Error('invalid parameter');
             }
-            this.addEvent(
-                new Click(
-                    func,
-                    (prm === undefined) ? null : prm
-                )
-            );
+            this.event([new Click(func,prm)]);
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
-    
     
     /**
      * button color setter / getter
@@ -103,12 +95,28 @@ mf.comp.Button = class extends mf.Component {
                 throw new Error('invalid parameter');
             }
             
-            var rgb = clr.rgba();
+            let rgb = clr.rgba();
             if (290 > (rgb[0]+rgb[1]+rgb[2])) {
                 this.child()[0].color(new mf.Color(255, 255, 255));
             }
-            
-            this.style({'background' : clr.getStyle()});
+            this.style({ 'background' : clr.getStyle() });
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    accentColor (clr) {
+        try {
+            if (undefined === clr) {
+                /* getter */
+                return mf.func.getColor(this.style('border-color'));
+            }
+            /* setter */
+            if (false  === mf.func.isObject(clr, 'Color')) {
+                throw new Error('invalid parameter');
+            }
+            this.style({ 'border-color' : clr.getStyle() });
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -142,7 +150,7 @@ mf.comp.Button = class extends mf.Component {
             let ret = super.height(val);
             if (undefined === ret) {
                 this.text().execOption({
-                    size : mofron.func.sizeDiff(val, '0.12rem')
+                    size : mf.func.sizeDiff(val, '0.12rem')
                 });
             }
             return ret;
@@ -152,22 +160,33 @@ mf.comp.Button = class extends mf.Component {
         }
     }
     
+    disabled () {
+        try { this.status(false); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    enabled () {
+        try { this.status(true); } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
     status (prm) {
         try {
             if (undefined === prm) {
                 /* getter */
-                return (undefined === this.m_status) ? false : this.m_status;
+                return ('disabled' === this.target().attr('disabled')) ? false : true;
             }
             /* setter */
             if ('boolean' !== typeof prm) {
                 throw new Error('invalid parameter');
             }
-            this.m_status = prm;
-            if (true === prm) {
-                this.target().attr({ 'disabled' : 'disabled' });
-            } else {
-                this.target().attr({ 'disabled' : null });
-            }
+            this.target().attr({
+                'disabled' : (true === prm) ? null : 'disabled'
+            });
         } catch (e) {
             console.error(e.stack);
             throw e;
