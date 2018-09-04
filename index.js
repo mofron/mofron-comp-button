@@ -69,7 +69,7 @@ mf.comp.Button = class extends mf.Component {
             if ('function' !== typeof func) {
                 throw new Error('invalid parameter');
             }
-            this.event([new Click(func,prm)]);
+            this.event([new Click(new mf.Param(func,prm))]);
         } catch (e) {
             console.error(e.stack);
             throw e;
