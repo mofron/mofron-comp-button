@@ -2,9 +2,11 @@
  * @file   mofron-comp-button/index.js
  * @author simpart
  */
-const mf    = require('mofron');
-const Text  = require("mofron-comp-text");
-const Click = require("mofron-event-click");
+const mf      = require('mofron');
+const Text    = require("mofron-comp-text");
+const Click   = require("mofron-event-click");
+const Synchei = require('mofron-effect-synchei');
+const Invclr  = require('mofron-effect-dev');
 /**
  * @class Button
  * @brief button component class
@@ -33,7 +35,7 @@ mf.comp.Button = class extends mf.Component {
             super.initDomConts('button');
             
             /* set contents */
-            this.addChild(new Text(''));
+            this.addChild(this.text());
             
             /* set style */
             this.style({ 'cursor' : 'pointer' });
@@ -57,19 +59,10 @@ mf.comp.Button = class extends mf.Component {
         try {
             if (undefined === func) {
                 /* getter */
-                let evt = this.event();
-                for (let idx in evt) {
-                    if ('Click' === evt[idx].name()) {
-                        return evt[idx].eventFunc();
-                    }
-                }
-                return [null,null];
+                return (null === this.event('Click')) ? null : this.event('Click').handler();
             }
             /* setter */
-            if ('function' !== typeof func) {
-                throw new Error('invalid parameter');
-            }
-            this.event([new Click(new mf.Param(func,prm))]);
+            this.event(new Click(func, prm));
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -79,81 +72,42 @@ mf.comp.Button = class extends mf.Component {
     /**
      * button color setter / getter
      *
-     * @param clr : (object) mofron.util.Color object
+     * @param prm : (string) color
      * @return (null) no setting color
-     * @return (object) mofron.util.Color object
+     * @return (string) setted color
      * @note do not specify parameters, if use as getter
      */
-    mainColor (clr) {
+    mainColor (prm) {
         try {
-            if (undefined === clr) {
-                /* getter */
-                return mf.func.getColor(this.style('background'));
+            let tgt = 'background';
+            return (undefined === prm) ? this.style(tgt) : mf.func.setColor(this, tgt, prm);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    accentColor (prm) {
+        try {
+            let tgt = 'border-color';
+            return (undefined === prm) ? this.style(tgt) : mf.func.setColor(this, tgt, prm);
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    text (prm) {
+        try {
+            if ('string' === typeof prm) {
+                this.text().execOption({ text : prm });
+                return;
             }
-            /* setter */
-            if (false  === mf.func.isObject(clr, 'Color')) {
-                throw new Error('invalid parameter');
+            if (true === mf.func.isInclude(prm, 'Text')) {
+                prm.effect(new Synchei(this, '-0.12rem'));
             }
             
-            let rgb = clr.rgba();
-            if (290 > (rgb[0]+rgb[1]+rgb[2])) {
-                this.child()[0].color(new mf.Color(255, 255, 255));
-            }
-            this.style({ 'background' : clr.getStyle() });
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    accentColor (clr) {
-        try {
-            if (undefined === clr) {
-                /* getter */
-                return mf.func.getColor(this.style('border-color'));
-            }
-            /* setter */
-            if (false  === mf.func.isObject(clr, 'Color')) {
-                throw new Error('invalid parameter');
-            }
-            this.style({ 'border-color' : clr.getStyle() });
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    text (txt) {
-        try {
-            if (undefined === txt) {
-                /* getter */
-                return this.child()[0];
-            }
-            /* setter */
-            if (true === mf.func.isInclude(txt, 'Text')) {
-                this.updChild(this.child()[0], txt);
-            } else if ('string' === typeof txt) {
-                this.text().execOption({
-                    text : txt
-                });
-            } else {
-                throw new Error('invalid parameter');
-            }
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    height (val) {
-        try {
-            let ret = super.height(val);
-            if (undefined === ret) {
-                this.text().execOption({
-                    size : mf.func.sizeDiff(val, '0.12rem')
-                });
-            }
-            return ret;
+            return this.innerComp(prm, 'text', Text);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -193,5 +147,5 @@ mf.comp.Button = class extends mf.Component {
         }
     }
 }
-module.exports = mofron.comp.Button;
+module.exports = mf.comp.Button;
 /* end of file */
