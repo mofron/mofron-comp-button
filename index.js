@@ -18,7 +18,7 @@ mf.comp.Button = class extends mf.Component {
         try {
             super();
             this.name('Button');
-            this.prmMap('text', 'clickEvent');
+            this.prmMap(['text', 'clickEvent']);
             this.prmOpt(po, p2);
         } catch (e) {
             console.error(e.stack);
