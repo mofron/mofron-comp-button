@@ -1,13 +1,15 @@
 {
   "name": "mofron-comp-button",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "description": "button component for mofron",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "mofron-event-click": ""
+    "mofron-event-click": "",
+    "mofron-effect-synchei" : "",
+    "mofron-effect-invclr" : ""
   },
   "repository": {
     "type": "git",
