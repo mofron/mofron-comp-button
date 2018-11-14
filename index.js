@@ -8,6 +8,7 @@ const Text     = require("mofron-comp-text");
 const Click    = require("mofron-event-click");
 const Synchei  = require('mofron-effect-synchei');
 const Invclr   = require('mofron-effect-invclr');
+const evInvclr = require('mofron-event-invclr');
 /**
  * @class Button
  * @brief button component class
@@ -60,7 +61,7 @@ mf.comp.Button = class extends mf.Component {
                 return (null === ret_ev) ? null : ret_ev.handler();
             }
             /* setter */
-            this.event(new Click(func, prm));
+            this.event(new Click([func, prm]));
         } catch (e) {
             console.error(e.stack);
             throw e;
