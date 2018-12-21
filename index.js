@@ -6,9 +6,7 @@
 const mf       = require('mofron');
 const Text     = require("mofron-comp-text");
 const Click    = require("mofron-event-click");
-const Synchei  = require('mofron-effect-synchei');
-const Invclr   = require('mofron-effect-invclr');
-const evInvclr = require('mofron-event-invclr');
+
 /**
  * @class Button
  * @brief button component class
@@ -110,13 +108,6 @@ mf.comp.Button = class extends mf.Component {
             if ('string' === typeof txt) {
                 this.text().execOption({ text : txt });
                 return;
-            } else if (true === mf.func.isInclude(txt, 'Text')) {
-                txt.execOption({
-                    effect : [
-                        new Synchei(this, '-0.12rem'),
-                        new Invclr(this, 'mainColor')
-                    ]
-                });
             }
             return this.innerComp('text', txt, Text);
         } catch (e) {
