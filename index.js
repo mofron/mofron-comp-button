@@ -3,16 +3,19 @@
  * @brief button component for mofron
  * @author simpart
  */
-const mf       = require('mofron');
-const Text     = require("mofron-comp-text");
-const Click    = require("mofron-event-click");
+const mf    = require('mofron');
+const Text  = require("mofron-comp-text");
+const Click = require("mofron-event-click");
 
-/**
- * @class Button
- * @brief button component class
- */
 mf.comp.Button = class extends mf.Component {
     
+    /**
+     * constructor
+     * 
+     * @param (string) 'text' function parameter
+     * @param (function) 'clickEvent' function parameter
+     * @type private
+     */
     constructor (po, p2) {
         try {
             super();
@@ -24,10 +27,11 @@ mf.comp.Button = class extends mf.Component {
             throw e;
         }
     }
+    
     /**
      * initialize dom contents
      * 
-     * @note private method
+     * @type private
      */
     initDomConts () {
         try {
@@ -43,23 +47,27 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * setter/getter for click event
-     * 
-     * @param func (function) callback function for click event
-     * @param func (undefined) calls as getter
-     * @param prm (mixed) function parameter (not required)
-     * @return (array) [cb func, func param]
-     * @return (null) not set yet
+     * button click event
+     *
+     * @param (function) click event function
+     * @param (mixed) function parameter
+     * @return (array) [function, parameter]
+     * @return (null) not set
+     * @type tag parameter
      */
     clickEvent (func, prm) {
         try {
+            let ev = this.event(["Click", arguments.callee.name]);
             if (undefined === func) {
                 /* getter */
-                let ret_ev = this.event('Click');
-                return (null === ret_ev) ? null : ret_ev.handler();
+                return (null === ev) ? null : ev.handler();
             }
             /* setter */
-            this.event(new Click([func, prm]));
+            if (null === ev) {
+                ev = new Click({ tag:arguments.callee.name });
+                this.event(ev);
+            }
+            ev.handler(func, prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -67,12 +75,12 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * setter/getter for background color
-     *
-     * @param clr (string) css 'background' value
-     * @param clr (undefined) calls as getter
-     * @return (string) css 'background' value
-     * @return (null) not set yet
+     * button color
+     * 
+     * @param (string (size)) button color
+     * @return (string (size)) button color 
+     * @return (null) not set
+     * @type tag parameter
      */
     mainColor (clr) {
         try { return this.tgtColor('background', clr); } catch (e) {
@@ -82,12 +90,12 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * setter/getter for border color
-     *
-     * @param clr (string) css 'border-color' value
-     * @param clr (undefined) calls as getter
-     * @return (string) css 'border-color' value
-     * @return (null) not set yet
+     * button border color
+     * 
+     * @param (string (size)) button border color
+     * @return (string (size)) button border color
+     * @return (null) not set
+     * @type tag parameter
      */
     accentColor (clr) {
         try { return this.tgtColor('border-color', clr); } catch (e) {
@@ -97,11 +105,11 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * setter/getter for button text
+     * button text contents
      *
-     * @param txt (string) button text
-     * @param txt (undefined) calls as getter
+     * @param (string) button text contents
      * @return (string) button text
+     * @type tag parameter
      */
     text (txt) {
         try {
@@ -119,6 +127,8 @@ mf.comp.Button = class extends mf.Component {
     /**
      * change disable mode
      * change this button to grayout and it will be can not click.
+     *
+     * @type private
      */
     disabled () {
         try { this.status(false); } catch (e) {
@@ -129,6 +139,8 @@ mf.comp.Button = class extends mf.Component {
     
     /**
      * change enable mode
+     *
+     * @type private
      */
     enabled () {
         try { this.status(true); } catch (e) {
@@ -138,11 +150,11 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * setter/getter status
+     * button status
      *
-     * @param sts (boolean) true : change enable mode
-     * @param sts (boolean) false : change disable mode
-     * @return (boolean) status
+     * @param (boolean (true/false)) change enable/disable mode
+     * @return (boolean) current status
+     * @type tag parameter
      */
     status (sts) {
         try {
