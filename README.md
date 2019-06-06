@@ -23,7 +23,7 @@ let test_ev = (p1,p2,p3) => { alert(p3); }
     button component
 </Button>
 <div>
-    <Button status=false style="margin:0.5rem;">disable button</Button>
+    <Button status=false>disable button</Button>
 </div>
 ```
 
