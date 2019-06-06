@@ -1,35 +1,39 @@
 # mofron-comp-button
-button component for mofron
+A button component for [mofron](https://mofron.github.io/mofron/).<br>
+[mofron](https://mofron.github.io/mofron/) is module based frontend framework.
 
 # Install
 
 ```bash
-npm install --save-dev mofron
+npm install mofron mofron-comp-button
 ```
 
-# Quick Start
-please see [here](https://github.com/simpart/mofron) about an overview of mofron
+# Sample
 
-example
-```javascript
-let Mof = require('mofron');
-let Btn = require('mofron-comp-button');
+```html
+<require>
+    <tag module="mofron-comp-button">Button</tag>
+</require>
 
-new Btn({
-    param      : 'TEST',  // required
-    clickEvent : function () {alert('click');},
-    width      : 150,
-    height     : 40,
-    color      : new mofron.Color(255,255,255),
-    visible    : true
-});
+<script run=init>
+let test_ev = (p1,p2,p3) => { alert(p3); }
+</script>
+
+<Button size="2rem","0.4rem" color="#f0e6fa" clickEvent=test_ev,"click" style="margin:0.5rem;">
+    button component
+</Button>
+<div>
+    <Button status=false style="margin:0.5rem;">disable button</Button>
+</div>
 ```
 
-#class specification
+# Parameter
 
-| Method          | Parameter                                                                    |    Description                  |
-|:------------------|:-----------------------------------------------------------------|:-------------------------------|
-| clickEvent | function : function for click event listener<br>mixed : function parameter (not required)       |set button click event |
-| width              | number or string : button width  | button width getter/setter. <br>(do not specify parameters, if use as getter) |
-| height             | number or string : button height  | button width getter/setter. <br>(do not specify parameters, if use as getter) |
-| color               | object : mofron.Color                                     | button color getter/setter. <br>(do not specify parameters, if use as getter)  |
+| Parameter Name     | Type                                          | Simple Param |    Description                   |
+|:-------------------|:----------------------------------------------|:------------:|:---------------------------------|
+| text               | string                                        | ◯            | button text contents             |
+| clickEvent         | function                                      | ◯            | click event function             |
+|                    | mixed                                         | ◯            | event parameter                  |
+| size               | [string (size), string (size)]                |              | width size, height size          |
+| color              | string (color) / [number, number, number]     |              | button color (name, hex) / r,g,b |
+| status             | true/false                                    |              | enabled button / disabled button |
