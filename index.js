@@ -51,7 +51,7 @@ mf.comp.Button = class extends mf.Component {
      *
      * @param (function) click event function
      * @param (mixed) function parameter
-     * @return (array) [function, parameter]
+     * @return (array) [[function, parameter], ...]
      * @return (null) not set
      * @type tag parameter
      */
