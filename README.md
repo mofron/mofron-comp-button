@@ -29,14 +29,12 @@ let test_ev = (p1,p2,p3) => { alert(p3); }
 
 # Parameter
 
-|Simple<br>Param| Parameter Name | Type                              |    Description                   |
-|:-------------:|:---------------|:----------------------------------|:---------------------------------|
-|       ◯       | text           | string                            | button text contents             |
-|               | clickEvent     | function                          | click event function             |
-|               |                | mixed                             | event parameter                  |
-|               | mainColor      | string (color)                    | button color (name, hex)         |
-|               |                | [number, number, number,(number)] | button color (r,g,b,(a))         | 
-|               | accentColor    | string (color)                    | border color (name, hex)         |
-|               |                | [number,number,number,(number)]   | border color (r,g,b,(a))         |
-|               | status         | boolean                           | true: enabled button             |
-|               |                |                                   | false: disabled button           |
+|Simple<br>Param| Parameter Name | Type                              |    Description                      |
+|:-------------:|:---------------|:----------------------------------|:------------------------------------|
+|       ◯       | text           | string                            | button text contents                |
+|               | clickEvent     | function                          | click event function                |
+|               |                | mixed                             | event parameter                     |
+|               | mainColor      | string/array (color)              | button color (name,hex/[r,g,b,(a)]) |
+|               | accentColor    | string/array (color)              | border color (name,hex/[r,g,b,(a)]) |
+|               | status         | boolean                           | true: enabled button                |
+|               |                |                                   | false: disabled button              |
