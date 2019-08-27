@@ -12,7 +12,8 @@ mf.comp.Button = class extends mf.Component {
     /**
      * constructor
      * 
-     * @param (string) 'text' function parameter
+     * @param (mixed) string: 'text' parameter
+     *                object: component option
      * @param (function) 'clickEvent' function parameter
      * @type private
      */
@@ -52,8 +53,7 @@ mf.comp.Button = class extends mf.Component {
      * @param (function) click event function
      * @param (mixed) function parameter
      * @return (array) [[function, parameter], ...]
-     * @return (null) not set
-     * @type tag parameter
+     * @type parameter
      */
     clickEvent (func, prm) {
         try {
@@ -77,13 +77,17 @@ mf.comp.Button = class extends mf.Component {
     /**
      * button color
      * 
-     * @param (string (size)) button color
-     * @return (string (size)) button color 
+     * @param (mixed (color)) string: button color name, #hex
+     *                        array: [red, green, blue, (alpha)]
+     * @param (option) style option
+     * @return (string) button color 
      * @return (null) not set
-     * @type tag parameter
+     * @type parameter
      */
-    mainColor (clr) {
-        try { return this.tgtColor('background', clr); } catch (e) {
+    mainColor (clr, opt) {
+        try {
+	    return mf.func.cmpColor(this, 'background', [clr,opt]);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -92,13 +96,15 @@ mf.comp.Button = class extends mf.Component {
     /**
      * button border color
      * 
-     * @param (string (size)) button border color
-     * @return (string (size)) button border color
+     * @param (mixed (color)) string: button border color, #hex
+     *                        array: [red, green, blue, (alpha)]
+     * @param (option) style option
+     * @return (string) button border color
      * @return (null) not set
-     * @type tag parameter
+     * @type parameter
      */
-    accentColor (clr) {
-        try { return this.tgtColor('border-color', clr); } catch (e) {
+    accentColor (clr, opt) {
+        try { return mf.func.cmpColor(this, 'border-color', [clr, opt]); } catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -109,7 +115,7 @@ mf.comp.Button = class extends mf.Component {
      *
      * @param (string) button text contents
      * @return (string) button text
-     * @type tag parameter
+     * @type parameter
      */
     text (txt) {
         try {
@@ -152,9 +158,9 @@ mf.comp.Button = class extends mf.Component {
     /**
      * button status
      *
-     * @param (boolean (true/false)) change enable/disable mode
+     * @param (boolean) change enable/disable mode
      * @return (boolean) current status
-     * @type tag parameter
+     * @type parameter
      */
     status (sts) {
         try {
