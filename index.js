@@ -3,18 +3,19 @@
  * @brief button component for mofron
  * @author simpart
  */
-const mf    = require('mofron');
-const Text  = require("mofron-comp-text");
-const Click = require("mofron-event-click");
+const mf     = require('mofron');
+const Text   = require("mofron-comp-text");
+const Click  = require("mofron-event-click");
+const SynHei = require("mofron-effect-synchei");
 
 mf.comp.Button = class extends mf.Component {
-    
     /**
      * constructor
      * 
-     * @param (mixed) string: 'text' parameter
+     * @param (mixed) string: text parameter
      *                object: component option
-     * @param (function) 'clickEvent' function parameter
+     * @param (function) clickEvent parameter
+     * @pmap text,clickEvent
      * @type private
      */
     constructor (po, p2) {
@@ -41,6 +42,28 @@ mf.comp.Button = class extends mf.Component {
             /* set style */
             this.style({ 'cursor' : 'pointer' });
             this.height('0.25rem');
+	    this.text().effect(new SynHei(this));
+        } catch (e) {
+            console.error(e.stack);
+            throw e;
+        }
+    }
+    
+    /**
+     * button text contents
+     *
+     * @param (mixed) string: button text contents
+     *                mofron-comp-text: button text component
+     * @return (string) button text
+     * @type parameter
+     */
+    text (txt) {
+        try {
+            if ('string' === typeof txt) {
+                this.text().option({ text : txt });
+                return;
+            }
+            return this.innerComp('text', txt, Text);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -111,30 +134,10 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * button text contents
-     *
-     * @param (string) button text contents
-     * @return (string) button text
-     * @type parameter
-     */
-    text (txt) {
-        try {
-            if ('string' === typeof txt) {
-                this.text().execOption({ text : txt });
-                return;
-            }
-            return this.innerComp('text', txt, Text);
-        } catch (e) {
-            console.error(e.stack);
-            throw e;
-        }
-    }
-    
-    /**
      * change disable mode
      * change this button to grayout and it will be can not click.
      *
-     * @type private
+     * @type function
      */
     disabled () {
         try { this.status(false); } catch (e) {
@@ -146,7 +149,7 @@ mf.comp.Button = class extends mf.Component {
     /**
      * change enable mode
      *
-     * @type private
+     * @type function
      */
     enabled () {
         try { this.status(true); } catch (e) {

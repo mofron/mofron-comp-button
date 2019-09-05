@@ -6,9 +6,9 @@
 let test_ev = (p1,p2,p3) => { alert(p3); }
 </script>
 
-<Button size="2rem","0.4rem" color="#f0e6fa" clickEvent=@test_ev,"click">
-    button component
+<Button size=2rem,0.4rem color="#f0e6fa" clickEvent=@test_ev,"click">
+    button
 </Button>
 <div>
-    <Button status=false>disable button</Button>
+    <Button status=false>disable</Button>
 </div>

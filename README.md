@@ -19,18 +19,20 @@ npm install mofron  mofron-comp-button
 let test_ev = (p1,p2,p3) => { alert(p3); }
 </script>
 
-<Button size="2rem","0.4rem" color="#f0e6fa" clickEvent=@test_ev,"click">
-    button component
+<Button size=2rem,0.4rem color="#f0e6fa" clickEvent=@test_ev,"click">
+    button
 </Button>
 <div>
-    <Button status=false>disable button</Button>
+    <Button status=false>disable</Button>
 </div>
 ```
 # Parameter
 
 |Simple<br>Param | Parameter Name | Type | Description |
 |:--------------:|:---------------|:-----|:------------|
-| | clickEvent | function | click event function |
+| ◯ | text | mixed | string: button text contents |
+| | | | mofron-comp-text: button text component |
+| ◯ | clickEvent | function | click event function |
 | | | mixed | function parameter |
 | | mainColor | mixed (color) | string: button color name, #hex |
 | | | | array: [red, green, blue, (alpha)] |
@@ -38,6 +40,5 @@ let test_ev = (p1,p2,p3) => { alert(p3); }
 | | accentColor | mixed (color) | string: button border color, #hex |
 | | | | array: [red, green, blue, (alpha)] |
 | | | option | style option |
-| | text | string | button text contents |
 | | status | boolean | change enable/disable mode |
 

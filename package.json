@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-button",
-  "version": "0.13.8",
+  "version": "0.13.9",
   "description": "button component for mofron",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "mofron-comp-text" : "",
-    "mofron-event-click": ""
+    "mofron-event-click": "",
+    "mofron-effect-synchei" : ""
   },
   "repository": {
     "type": "git",
