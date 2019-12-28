@@ -1,29 +1,32 @@
 /**
  * @file  mofron-comp-button/index.js
  * @brief button component for mofron
- * @author simpart
+ * @license MIT
  */
-const mf     = require('mofron');
 const Text   = require("mofron-comp-text");
 const Click  = require("mofron-event-click");
 const SynHei = require("mofron-effect-synchei");
+const cmputl = mofron.util.component;
 
-mf.comp.Button = class extends mf.Component {
+module.exports = class extends mofron.class.Component {
     /**
      * constructor
      * 
      * @param (mixed) string: text parameter
-     *                object: component option
-     * @param (function) clickEvent parameter
-     * @pmap text,clickEvent
+     *                object: component config
+     * @param (mixed) clickEvent parameter
+     * @short text,clickEvent
      * @type private
      */
-    constructor (po, p2) {
+    constructor (p1, p2) {
         try {
             super();
             this.name('Button');
-            this.prmMap(['text', 'clickEvent']);
-            this.prmOpt(po, p2);
+            this.shortForm('text', 'clickEvent');
+            
+            if (0 < arguments.length) {
+                this.config(p1,p2);
+            }
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -38,10 +41,11 @@ mf.comp.Button = class extends mf.Component {
     initDomConts () {
         try {
             super.initDomConts('button');
-            this.addChild(this.text());  // set button text
-            /* set style */
-            this.style({ 'cursor' : 'pointer' });
+	    /* set button text */
+            this.child(this.text());
+            /* set default config */
             this.height('0.25rem');
+	    this.status(true);
 	    this.text().effect(new SynHei(this));
         } catch (e) {
             console.error(e.stack);
@@ -54,13 +58,13 @@ mf.comp.Button = class extends mf.Component {
      *
      * @param (mixed) string: button text contents
      *                mofron-comp-text: button text component
-     * @return (string) button text
+     * @return (mofron-comp-text) button text
      * @type parameter
      */
     text (txt) {
         try {
             if ('string' === typeof txt) {
-                this.text().option({ text : txt });
+                this.text().text(txt);
                 return;
             }
             return this.innerComp('text', txt, Text);
@@ -75,15 +79,19 @@ mf.comp.Button = class extends mf.Component {
      *
      * @param (function) click event function
      * @param (mixed) function parameter
-     * @return (array) [[function, parameter], ...]
+     * @return (mixed) array: [function, parameter]
+     *                 null: not set yet
      * @type parameter
      */
     clickEvent (func, prm) {
         try {
-            let ev = this.event(["Click", arguments.callee.name]);
+            let ev = this.event({ name: "Click", tag: arguments.callee.name });
             if (undefined === func) {
                 /* getter */
-                return (null === ev) ? null : ev.handler();
+		if (null === ev) {
+		    return null;
+		}
+                return [ev.handler().func(), ev.handler().param()];
             }
             /* setter */
             if (null === ev) {
@@ -98,18 +106,18 @@ mf.comp.Button = class extends mf.Component {
     }
     
     /**
-     * button color
+     * button text color
      * 
-     * @param (mixed (color)) string: button color name, #hex
+     * @param (mixed (color)) string: button text color name, #hex
      *                        array: [red, green, blue, (alpha)]
-     * @param (option) style option
-     * @return (string) button color 
-     * @return (null) not set
+     * @param (key-value) style option
+     * @return (mixed) button text color
+     *                 null: not set yet
      * @type parameter
      */
     mainColor (clr, opt) {
         try {
-	    return mf.func.cmpColor(this, 'background', [clr,opt]);
+	    return this.text().mainColor(clr,opt);
 	} catch (e) {
             console.error(e.stack);
             throw e;
@@ -121,13 +129,15 @@ mf.comp.Button = class extends mf.Component {
      * 
      * @param (mixed (color)) string: button border color, #hex
      *                        array: [red, green, blue, (alpha)]
-     * @param (option) style option
-     * @return (string) button border color
-     * @return (null) not set
+     * @param (key-value) style option
+     * @return (mixed) button border color
+     *                 null; not set yet
      * @type parameter
      */
     accentColor (clr, opt) {
-        try { return mf.func.cmpColor(this, 'border-color', [clr, opt]); } catch (e) {
+        try {
+	    return cmputl.color(this, 'border-color', clr, opt);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -140,7 +150,9 @@ mf.comp.Button = class extends mf.Component {
      * @type function
      */
     disabled () {
-        try { this.status(false); } catch (e) {
+        try {
+	    this.status(false);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -152,7 +164,9 @@ mf.comp.Button = class extends mf.Component {
      * @type function
      */
     enabled () {
-        try { this.status(true); } catch (e) {
+        try {
+	    this.status(true);
+	} catch (e) {
             console.error(e.stack);
             throw e;
         }
@@ -169,20 +183,22 @@ mf.comp.Button = class extends mf.Component {
         try {
             if (undefined === sts) {
                 /* getter */
-                return ('disabled' === this.target().attr('disabled')) ? false : true;
+                return ('disabled' === this.childDom().attrs('disabled')) ? false : true;
             }
             /* setter */
             if ('boolean' !== typeof sts) {
                 throw new Error('invalid parameter');
             }
-            this.target().attr({
+            this.childDom().attrs({
                 'disabled' : (true === sts) ? null : 'disabled'
             });
+	    this.childDom().style(
+                { 'cursor' : (true === sts) ? 'pointer' : 'not-allowed' }
+	    );
         } catch (e) {
             console.error(e.stack);
             throw e;
         }
     }
 }
-module.exports = mf.comp.Button;
 /* end of file */

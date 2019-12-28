@@ -1,14 +1,12 @@
 <require>
-    <tag module="mofron-comp-button">Button</tag>
+    <tag load="mofron-comp-button">Button</tag>
 </require>
 
-<script run=init>
-let test_ev = (p1,p2,p3) => { alert(p3); }
+<script name=clk run=init>
+alert("click");
 </script>
 
-<Button size=2rem,0.4rem color="#f0e6fa" clickEvent=@test_ev,"click">
-    button
-</Button>
+<Button size=(2rem,0.4rem) color2="#f0e6fa">(button,@clk)</Button>
 <div>
     <Button status=false>disable</Button>
 </div>
