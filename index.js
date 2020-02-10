@@ -79,26 +79,16 @@ module.exports = class extends mofron.class.Component {
      *
      * @param (function) click event function
      * @param (mixed) function parameter
-     * @return (mixed) array: [function, parameter]
-     *                 null: not set yet
      * @type parameter
      */
     clickEvent (func, prm) {
         try {
             let ev = this.event({ name: "Click", tag: arguments.callee.name });
-            if (undefined === func) {
-                /* getter */
-		if (null === ev) {
-		    return null;
-		}
-                return [ev.handler().func(), ev.handler().param()];
-            }
-            /* setter */
             if (null === ev) {
                 ev = new Click({ tag:arguments.callee.name });
                 this.event(ev);
             }
-            ev.handler(func, prm);
+            ev.listener(func, prm);
         } catch (e) {
             console.error(e.stack);
             throw e;

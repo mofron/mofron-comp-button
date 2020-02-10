@@ -2,8 +2,8 @@
     <tag load="mofron-comp-button">Button</tag>
 </require>
 
-<script name=clk run=init>
-alert("click");
+<script run=init>
+let clk = () => { alert("click"); };
 </script>
 
 <Button size=(2rem,0.4rem) color2="#f0e6fa">(button,@clk)</Button>
