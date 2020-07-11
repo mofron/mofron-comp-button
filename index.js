@@ -126,6 +126,12 @@ module.exports = class extends mofron.class.Component {
      */
     accentColor (clr, opt) {
         try {
+	    if (undefined !== clr) {
+                this.style(
+		    { 'border-style' : (null === clr) ?  'none' : 'solid' },
+		    opt
+		);
+	    }
 	    return cmputl.color(this, 'border-color', clr, opt);
 	} catch (e) {
             console.error(e.stack);

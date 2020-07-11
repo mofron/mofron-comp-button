@@ -11,9 +11,9 @@ npm install mofron  mofron-comp-button
 
 # Sample
 ```html
-<require>
+<setting>
     <tag load="mofron-comp-button">Button</tag>
-</require>
+</setting>
 
 <script run=init>
 let clk = () => { alert("click"); };
@@ -39,7 +39,5 @@ let clk = () => { alert("click"); };
 | | accentColor | mixed (color) | string: button border color, #hex |
 | | | | array: [red, green, blue, (alpha)] |
 | | | key-value | style option |
-| | disabled | ||
-| | enabled | ||
-| | status | boolean | change enable/disable mode |
+| | disabled | ||| | enabled | ||| | status | boolean | change enable/disable mode |
 

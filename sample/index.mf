@@ -1,6 +1,6 @@
-<require>
+<setting>
     <tag load="mofron-comp-button">Button</tag>
-</require>
+</setting>
 
 <script run=init>
 let clk = () => { alert("click"); };
