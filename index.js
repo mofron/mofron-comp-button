@@ -46,7 +46,8 @@ module.exports = class extends mofron.class.Component {
             /* set default config */
             this.height('0.25rem');
 	    this.status(true);
-	    this.text().effect(new SynHei(this));
+	    this.text().effect(new SynHei(this,'-0.1rem'));
+	    this.style({ 'border-width' : '0.01rem' });
         } catch (e) {
             console.error(e.stack);
             throw e;
