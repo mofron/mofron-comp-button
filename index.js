@@ -56,18 +56,20 @@ module.exports = class extends mofron.class.Component {
     
     /**
      * button text contents
-     *
+     * 
      * @param (mixed) string: button text contents
      *                mofron-comp-text: button text component
+     * @param (mixed) text component config
      * @return (mofron-comp-text) button text
      * @type parameter
      */
-    text (txt) {
+    text (txt, cnf) {
         try {
             if ('string' === typeof txt) {
                 this.text().text(txt);
                 return;
             }
+	    this.text().config(cnf);
             return this.innerComp('text', txt, Text);
         } catch (e) {
             console.error(e.stack);

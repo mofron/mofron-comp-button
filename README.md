@@ -31,6 +31,7 @@ let clk = () => { alert("click"); };
 |:-------------:|:---------------|:-----|:------------|
 | ◯  | text | mixed | string: button text contents |
 | | | | mofron-comp-text: button text component |
+| | | mixed | text component config |
 | ◯  | clickEvent | function | click event function |
 | | | mixed | function parameter |
 | | mainColor | mixed (color) | string: button text color name, #hex |
