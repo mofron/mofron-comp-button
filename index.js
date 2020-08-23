@@ -21,7 +21,7 @@ module.exports = class extends mofron.class.Component {
     constructor (p1, p2) {
         try {
             super();
-            this.name('Button');
+            this.modname('Button');
             this.shortForm('text', 'clickEvent');
             
             if (0 < arguments.length) {
@@ -69,7 +69,9 @@ module.exports = class extends mofron.class.Component {
                 this.text().text(txt);
                 return;
             }
-	    this.text().config(cnf);
+	    if (undefined !== cnf) {
+                this.text().config(cnf);
+	    }
             return this.innerComp('text', txt, Text);
         } catch (e) {
             console.error(e.stack);
