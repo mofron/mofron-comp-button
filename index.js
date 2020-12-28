@@ -6,6 +6,7 @@
 const Text   = require("mofron-comp-text");
 const Click  = require("mofron-event-click");
 const SynHei = require("mofron-effect-synchei");
+const Border = require("mofron-effect-border");
 const cmputl = mofron.util.component;
 
 module.exports = class extends mofron.class.Component {
@@ -23,6 +24,8 @@ module.exports = class extends mofron.class.Component {
             super();
             this.modname('Button');
             this.shortForm('text', 'clickEvent');
+
+            this.confmng().add("clickEvent", { type: "event", list: true });
             
             if (0 < arguments.length) {
                 this.config(p1,p2);
@@ -43,11 +46,15 @@ module.exports = class extends mofron.class.Component {
             super.initDomConts('button');
 	    /* set button text */
             this.child(this.text());
-            /* set default config */
-            this.height('0.25rem');
-	    this.status(true);
-	    this.text().effect(new SynHei(this,'-0.1rem'));
-	    this.style({ 'border-width' : '0.01rem' });
+
+            /*** set default config ***/
+	    let pvt = { private:true };
+            this.height('0.25rem', pvt);
+            this.status(true);
+            this.text().effect(new SynHei(this), pvt);
+	    /* border */
+            this.style({ 'border': 'solid 0.01rem #787878' }, pvt);
+            this.event(new Click({ tag:"Button" }), pvt);
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -86,14 +93,16 @@ module.exports = class extends mofron.class.Component {
      * @param (mixed) function parameter
      * @type parameter
      */
-    clickEvent (func, prm) {
+    clickEvent (fnc, prm) {
         try {
-            let ev = this.event({ name: "Click", tag: arguments.callee.name });
-            if (null === ev) {
-                ev = new Click({ tag:arguments.callee.name });
-                this.event(ev);
-            }
-            ev.listener(func, prm);
+            if (undefined === fnc) {
+                /* getter */
+		return this.confmng("clickEvent");
+	    }
+            /* setter */
+	    this.confmng("clickEvent", [fnc,prm]);
+            let clk = this.event({ modname: "Click", tag: "Button" });
+	    clk.listener(fnc,prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
