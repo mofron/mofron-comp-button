@@ -51,7 +51,7 @@ module.exports = class extends mofron.class.Component {
 	    let pvt = { private:true };
             this.height('0.25rem', pvt);
             this.status(true);
-            this.text().effect(new SynHei(this), pvt);
+            this.text().effect(new SynHei(this));
 	    /* border */
             this.style({ 'border': 'solid 0.01rem #787878' }, pvt);
             this.event(new Click({ tag:"Button" }), pvt);
