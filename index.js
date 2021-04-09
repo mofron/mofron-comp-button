@@ -8,6 +8,7 @@ const Click  = require("mofron-event-click");
 const SynHei = require("mofron-effect-synchei");
 const Border = require("mofron-effect-border");
 const cmputl = mofron.util.component;
+const comutl = mofron.util.common;
 
 module.exports = class extends mofron.class.Component {
     /**
@@ -24,8 +25,9 @@ module.exports = class extends mofron.class.Component {
             super();
             this.modname('Button');
             this.shortForm('text', 'clickEvent');
-
+            
             this.confmng().add("clickEvent", { type: "event", list: true });
+	    this.confmng().add("text", { type:"Text" });
             
             if (0 < arguments.length) {
                 this.config(p1,p2);
@@ -74,11 +76,15 @@ module.exports = class extends mofron.class.Component {
         try {
             if ('string' === typeof txt) {
                 this.text().text(txt);
+		this.confmng("text", this.text());
                 return;
             }
 	    if (undefined !== cnf) {
                 this.text().config(cnf);
 	    }
+	    if (true === comutl.isinc(txt,"Text")) {
+	        this.confmng("text", txt);
+            }
             return this.innerComp('text', txt, Text);
         } catch (e) {
             console.error(e.stack);
@@ -97,12 +103,19 @@ module.exports = class extends mofron.class.Component {
         try {
             if (undefined === fnc) {
                 /* getter */
-		return this.confmng("clickEvent");
-	    }
+                return this.confmng("clickEvent");
+            }
             /* setter */
-	    this.confmng("clickEvent", [fnc,prm]);
+            if (true === Array.isArray(fnc)) {
+	        for (let fidx in fnc) {
+                    this.clickEvent(fnc[fidx][0], fnc[fidx][1]);
+		}
+                return;
+	    }
+
+            this.confmng("clickEvent", [fnc,prm]);
             let clk = this.event({ modname: "Click", tag: "Button" });
-	    clk.listener(fnc,prm);
+            clk.listener(fnc,prm);
         } catch (e) {
             console.error(e.stack);
             throw e;
