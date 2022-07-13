@@ -84,6 +84,7 @@ module.exports = class extends mofron.class.Component {
 	    }
 	    if (true === comutl.isinc(txt,"Text")) {
 	        this.confmng("text", txt);
+		txt.style({ 'position':'relative', 'top':'-0.01rem' });
             }
             return this.innerComp('text', txt, Text);
         } catch (e) {
